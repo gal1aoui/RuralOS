@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Geist } from "next/font/google";
 import Link from "next/link";
 import { Logo } from "@/components/Brand";
+import { DesktopNav, MobileNav, type NavItem } from "@/components/NavLinks";
 import { LangSwitch, ThemeToggle } from "@/components/Switchers";
 import { LOCALES, href, tx, type Lang, type T } from "@/lib/i18n";
 import { langOf } from "@/lib/lang";
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
   };
 }
 
-const NAV: { path: string; label: T }[] = [
+const NAV: NavItem[] = [
   { path: "/plan", label: { en: "Plan my visit", es: "Planifica tu visita" } },
   { path: "/packages", label: { en: "Packages", es: "Paquetes" } },
   { path: "/experiences", label: { en: "Experiences", es: "Experiencias" } },
@@ -62,26 +63,11 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
               <Logo />
               <span className="hidden text-sm text-ink-soft sm:inline xl:hidden 2xl:inline">San Xoán de Río</span>
             </Link>
-            <nav className="hidden gap-0.5 xl:flex" aria-label={t({ en: "Main", es: "Principal" })}>
-              {NAV.map((n) => (
-                <Link key={n.path} href={href(n.path, lang)} className={`whitespace-nowrap rounded-full px-2.5 py-1.5 text-sm ${n.path === "/plan" ? "bg-moss text-on-moss hover:opacity-90" : "hover:bg-stone"}`}>
-                  {t(n.label)}
-                </Link>
-              ))}
-            </nav>
+            <DesktopNav items={NAV} lang={lang} label={t({ en: "Main", es: "Principal" })} />
             <div className="flex items-center gap-2">
               <LangSwitch lang={lang} />
               <ThemeToggle lang={lang} />
-              <details className="relative xl:hidden">
-                <summary className="cursor-pointer list-none rounded-full border border-line px-3 py-1.5 text-sm">{t({ en: "Menu", es: "Menú" })}</summary>
-                <nav className="absolute right-0 mt-2 flex w-56 flex-col rounded-xl border border-line bg-paper p-2 shadow-lg" aria-label={t({ en: "Main", es: "Principal" })}>
-                  {NAV.map((n) => (
-                    <Link key={n.path} href={href(n.path, lang)} className="rounded-lg px-3 py-2 text-sm hover:bg-stone">
-                      {t(n.label)}
-                    </Link>
-                  ))}
-                </nav>
-              </details>
+              <MobileNav items={NAV} lang={lang} label={t({ en: "Main", es: "Principal" })} menu={t({ en: "Menu", es: "Menú" })} />
             </div>
           </div>
         </header>
