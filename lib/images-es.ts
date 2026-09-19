@@ -1,0 +1,33 @@
+import type { ImgSlug } from "./images";
+
+// Spanish alt text and place names for lib/images.ts (English lives there).
+export const IMAGES_ES: Record<ImgSlug, { alt: string; place: string }> = {
+  "navea-valley": { alt: "El valle del río Navea desde el mirador de Ponte Navea", place: "Mirador de Ponte Navea, San Xoán de Río" },
+  "navea-valley-2": { alt: "Laderas arboladas del valle del Navea", place: "Mirador de Ponte Navea, San Xoán de Río" },
+  "navea-taboazas": { alt: "El valle del Navea desde As Taboazas", place: "As Taboazas, valle del Navea" },
+  fraga: { alt: "Fraga (bosque autóctono) de la Ruta da Fraga", place: "San Xoán de Río" },
+  "fraga-2": { alt: "Camino por la fraga, San Xoán de Río", place: "San Xoán de Río" },
+  "os-biocos": { alt: "Garganta rocosa en Os Biocos, San Xoán de Río", place: "Os Biocos, San Xoán de Río" },
+  "biocos-observatory": { alt: "La meseta y el observatorio de Os Biocos, junto al futuro campus Rural Valley", place: "Os Biocos, San Xoán de Río" },
+  church: { alt: "Iglesia parroquial de San Xoán de Río", place: "San Xoán de Río" },
+  "ponte-navea": { alt: "Puente romano-medieval de la Vía Nova sobre el Navea", place: "Ponte Navea (San Xoán de Río / A Pobra de Trives)" },
+  miliario: { alt: "Miliario romano de la Vía Nova", place: "Zona de Ponte Bibei, A Pobra de Trives" },
+  "ponte-bibei": { alt: "El río Bibei desde el puente romano", place: "Ponte Bibei, A Pobra de Trives" },
+  "manzaneda-ski": { alt: "Vista aérea de los edificios de la estación de Manzaneda", place: "Estación de montaña de Manzaneda" },
+  "cabeza-manzaneda": { alt: "Cumbre de Cabeza de Manzaneda", place: "Cabeza de Manzaneda" },
+  montederramo: { alt: "Monasterio de Santa María de Montederramo", place: "Montederramo" },
+  "castro-caldelas": { alt: "Castillo de Castro Caldelas", place: "Castro Caldelas" },
+  "sil-catamaran": { alt: "El cañón del Sil desde un catamarán", place: "Cañón del Sil, Ribeira Sacra" },
+  "sil-canyon": { alt: "Paredes y río del cañón del Sil", place: "Cañón del Sil, Ribeira Sacra" },
+  "sil-vineyards": { alt: "Viñedos en bancales sobre el Sil", place: "Ribeira Sacra" },
+  mencia: { alt: "Uvas mencía madurando en un viñedo de la Ribeira Sacra", place: "D.O. Ribeira Sacra (Sober)" },
+  chestnuts: { alt: "Castañas asadas para un magosto", place: "Galicia" },
+  magosto: { alt: "Magosto: asando castañas", place: "A Estrada, Galicia" },
+  pulpo: { alt: "Pulpo á feira para eventos", place: "Galicia" },
+  queimada: { alt: "Una queimada, el ritual gallego del fuego", place: "Galicia" },
+  gaita: { alt: "Gaita gallega y pandeiro", place: "Galicia" },
+  entroido: { alt: "Entroido en Terra de Trives", place: "Maceda, Manzaneda (Terra de Trives)" },
+  termas: { alt: "Termas de Outariz, Ourense", place: "Outariz, Ourense" },
+  "chestnut-tree": { alt: "Un castaño centenario", place: "Galicia" },
+  "stone-house": { alt: "Casa de piedra y hórreo típicos de las aldeas de Ourense", place: "Sobreira, Vilamarín (Ourense)" },
+};

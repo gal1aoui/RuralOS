@@ -1,26 +1,109 @@
 @import "tailwindcss";
 
+/* RuralOS brand palette (public/assets): green #2F5D4A, sage #77B393,
+   lime #A7C049 / #6F8A18, off-white #F3F6F0. Light is the default; dark follows the
+   system unless the visitor picks a theme (data-theme on <html>, set before paint). */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --paper: #f3f6f0;
+  --stone: #e5ebe2;
+  --stone-deep: #d5decf;
+  --ink: #16211b;
+  --ink-soft: #4a5950;
+  --moss: #2f5d4a; /* brand green */
+  --on-moss: #f3f6f0;
+  --moss-deep: #25493a;
+  --accent: #5c7314; /* brand lime, darkened for 4.5:1 text on paper */
+  --chestnut: #8b4a28;
+  --sun: #a7c049; /* brand lime */
+  --line: #c9d3c4;
+  --chart: #2f7a4a; /* validated vs paper: lightness band, chroma, 3:1 contrast */
+  --wordmark: #2f5d4a;
+  --wordmark-os: #3f7d5c;
+  --brand-dot: #6f8a18;
+  /* Fixed tokens: text on photo scrims and green panels stays light in both themes. */
+  --on-accent: #f3f6f0;
+  --scrim: #101915;
+  --on-sun: #16211b;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --paper: #101915;
+    --stone: #18241e;
+    --stone-deep: #22302a;
+    --ink: #e8efe6;
+    --ink-soft: #aab8ae;
+    --moss: #77b393; /* brand sage */
+    --on-moss: #0e1712;
+    --moss-deep: #1a3a2d;
+    --accent: #a7c049;
+    --chestnut: #e0996c;
+    --line: #2d3c34;
+    --chart: #56a872; /* validated vs the dark surface */
+    --wordmark: #f3f6f0; /* = ruralos-wordmark-reversed.svg */
+    --wordmark-os: #77b393;
+    --brand-dot: #a7c049;
+    color-scheme: dark;
   }
 }
 
+:root[data-theme="dark"] {
+  --paper: #101915;
+  --stone: #18241e;
+  --stone-deep: #22302a;
+  --ink: #e8efe6;
+  --ink-soft: #aab8ae;
+  --moss: #77b393;
+  --on-moss: #0e1712;
+  --moss-deep: #1a3a2d;
+  --accent: #a7c049;
+  --chestnut: #e0996c;
+  --line: #2d3c34;
+  --chart: #56a872;
+  --wordmark: #f3f6f0;
+  --wordmark-os: #77b393;
+  --brand-dot: #a7c049;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-stone: var(--stone);
+  --color-stone-deep: var(--stone-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-moss: var(--moss);
+  --color-on-moss: var(--on-moss);
+  --color-moss-deep: var(--moss-deep);
+  --color-accent: var(--accent);
+  --color-chestnut: var(--chestnut);
+  --color-sun: var(--sun);
+  --color-line: var(--line);
+  --color-chart: var(--chart);
+  --color-on-accent: var(--on-accent);
+  --color-scrim: var(--scrim);
+  --color-on-sun: var(--on-sun);
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-bricolage);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-bricolage), "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--chestnut);
+  outline-offset: 2px;
+}
+
+input[type="range"], input[type="checkbox"], input[type="radio"] {
+  accent-color: var(--moss);
 }
