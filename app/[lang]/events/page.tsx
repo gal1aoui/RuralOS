@@ -7,7 +7,7 @@ import { alternates, langOf } from "@/lib/lang";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/events">): Promise<Metadata> {
   const lang = await langOf(params);
-  return { title: tx({ en: "Private events · RuralOS", es: "Eventos privados · RuralOS" }, lang), alternates: alternates(lang, "/events") };
+  return { title: tx({ en: "Private events · RuralRiver", es: "Eventos privados · RuralRiver" }, lang), alternates: alternates(lang, "/events") };
 }
 
 const CATEGORIES: AddOn["category"][] = ["food", "music", "venue", "transport", "experiences"];

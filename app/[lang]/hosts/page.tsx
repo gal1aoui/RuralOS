@@ -6,7 +6,7 @@ import { alternates, langOf } from "@/lib/lang";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/hosts">): Promise<Metadata> {
   const lang = await langOf(params);
-  return { title: tx({ en: "For locals · RuralOS", es: "Para vecinos · RuralOS" }, lang), alternates: alternates(lang, "/hosts") };
+  return { title: tx({ en: "For locals · RuralRiver", es: "Para vecinos · RuralRiver" }, lang), alternates: alternates(lang, "/hosts") };
 }
 
 export default async function HostsPage({ params }: PageProps<"/[lang]/hosts">) {
@@ -16,7 +16,7 @@ export default async function HostsPage({ params }: PageProps<"/[lang]/hosts">) 
   const steps: T[] = [
     { en: "We visit, take photos and agree a price with you. There's no fee to list.", es: "Vamos a verla, hacemos fotos y acordamos el precio contigo. Publicar no cuesta nada." },
     { en: "For short stays we file the tourist-rental declaration (VUT) with you and register the house in REAT. VUTs are let whole, never by the room.", es: "Para estancias cortas hacemos contigo la declaración de vivienda de uso turístico (VUT) y el alta en el REAT. Las VUT se alquilan enteras, nunca por habitaciones." },
-    { en: "Guests and event organisers book through RuralOS; our insurance covers them.", es: "Huéspedes y organizadores reservan a través de RuralOS; nuestro seguro los cubre." },
+    { en: "Guests and event organisers book through RuralRiver; our insurance covers them.", es: "Huéspedes y organizadores reservan a través de RuralRiver; nuestro seguro los cubre." },
     { en: "We clean between stays and after events, and handle the Concello notification.", es: "Limpiamos entre estancias y tras los eventos, y hacemos la comunicación al Concello." },
     { en: "You're paid the week after, with a clear statement.", es: "Cobras la semana siguiente, con un resumen claro." },
   ];
@@ -25,7 +25,7 @@ export default async function HostsPage({ params }: PageProps<"/[lang]/hosts">) 
       <PageHero slug="stone-house" lang={lang} eyebrow={t({ en: "For neighbours and emigrants", es: "Para vecinos y emigrantes" })} title={t({ en: "The empty house, the old wine cellar, the chestnut grove: they can pay their way.", es: "La casa vacía, la vieja adega, el souto: pueden darte ingresos." })} lead={t({ en: "We bring the guests, the insurance and the paperwork. You keep most of the money, paid the week after each stay or event.", es: "Ponemos los huéspedes, el seguro y el papeleo. Tú te quedas con la mayor parte, cobrada la semana siguiente a cada estancia o evento." })} />
 
       <Section>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {HOST_OFFERS.map((h) => (
             <div key={h.title.en} className="rounded-3xl border border-line p-6">
               <p className="font-display text-2xl font-semibold text-moss">{t(h.share)}</p>

@@ -69,7 +69,7 @@ export default function EventBuilder({ lang }: { lang: Lang }) {
         </ul>
         <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
           <div className="rounded-xl bg-on-accent/10 p-3"><p className="text-on-accent/70">{t({ en: "Landowner earns", es: "El propietario gana" })}</p><p className="font-display text-2xl">{e(q.ownerEarns)}</p></div>
-          <div className="rounded-xl bg-on-accent/10 p-3"><p className="text-on-accent/70">{t({ en: "RuralOS keeps", es: "RuralOS se queda" })}</p><p className="font-display text-2xl">{e(q.ours)}</p></div>
+          <div className="rounded-xl bg-on-accent/10 p-3"><p className="text-on-accent/70">{t({ en: "RuralRiver keeps", es: "RuralRiver se queda" })}</p><p className="font-display text-2xl">{e(q.ours)}</p></div>
         </div>
         <p className="mt-4 text-xs text-on-accent/70">{t({ en: "≈ marks estimates until the supplier quotes. Catering tiers sit within the researched €10–60 per guest range for Ourense.", es: "≈ indica estimación hasta tener presupuesto. Los niveles de catering están dentro del rango investigado de 10–60 € por invitado en Ourense." })}</p>
         <Link href={href("/plan", lang)} className="mt-5 inline-block rounded-full bg-on-accent px-5 py-2.5 text-sm font-semibold text-on-sun hover:opacity-90">{t({ en: "Request this event →", es: "Solicitar este evento →" })}</Link>

@@ -29,9 +29,6 @@ export const SOURCES = {
   castroCaldelas: { label: "TusCasasRurales: Castro Caldelas", url: "https://www.tuscasasrurales.com/que-ver-en-castro-caldelas-5166.htm" },
   paradaSil: { label: "Galicia Máxica: Parada de Sil", url: "https://www.galiciamaxica.eu/galicia/ourense/comarca-da-terra-de-caldelas/parada-de-sil/" },
   anceu: { label: "Anceu Coliving", url: "https://anceu.com/" },
-  startAbroad: { label: "StartAbroad: Spain concierge", url: "https://startabroad.com/services/spain-concierge/" },
-  globexs: { label: "Globexs relocation", url: "https://www.globexs.com/relocation-services-expats-digital-nomads/" },
-  lexmovea: { label: "Lexmovea relocation", url: "https://lexmovea.us/services/relocation/" },
   team: { label: "Team v1 prototype (RuralOS Talent Match)", url: "https://claude.ai/artifact/JYdPgmeSyXiKnPiB7c1mHh" },
   // Official / legal sources (verified September 2026)
   boeSmi: { label: "BOE: Real Decreto 126/2026 (SMI 2026)", url: "https://www.boe.es/buscar/act.php?id=BOE-A-2026-3815" },
@@ -50,6 +47,20 @@ export const SOURCES = {
   transport: { label: "Ministry of Transport: paid passenger transport needs authorisation", url: "https://www.transportes.gob.es/ministerio/comunicacion/sala-prensa/mar-08082017-0840-6" },
   transportFaq: { label: "Ministry of Transport: passenger transport FAQ", url: "https://www.transportes.gob.es/transporte-terrestre/preguntas-frecuentes-faq/transporte-de-viajeros" },
   tarifaPlana: { label: "Infoautónomos: €80 flat rate in 2026", url: "https://www.infoautonomos.com/seguridad-social/tarifa-plana-autonomos/" },
+  // Land & agriculture (researched September 2026)
+  abandoned: { label: "El Correo Gallego, 20 Mar 2026: 35.7% of Galicia's farmland unused (MAPA data)", url: "https://www.elcorreogallego.es/galicia/2026/03/20/tercio-superficie-agraria-gallega-abandonada-128179935.html" },
+  owners: { label: "El Correo Gallego, 20 Sep 2026: 1.7M rural-land owners vs ≈44,000 farm workers", url: "https://www.elcorreogallego.es/galicia/2026/09/20/galicia-1-7-millones-propietarios-134479671.html" },
+  cambela: { label: "Campo Galego: Cambela agroforestry polygon, 96.4 ha in San Xoán de Río", url: "https://www.campogalego.es/la-xunta-promueve-un-poligono-agroforestal-de-96-hectareas-en-san-xoan-de-rio/" },
+  cambelaDog: { label: "DOG 19 Apr 2024: Cambela polygon procedure (San Xoán de Río)", url: "https://www.xunta.gal/dog/Publicados/2024/20240419/AnuncioO90-110424-0003_es.html" },
+  agader: { label: "Agader: agroforestry polygons (17 of 26 are in Ourense)", url: "https://agader.xunta.gal/es/recuperacion-de-tierras/poligonos-agroforestales" },
+  bancoTerras: { label: "Agader: land recovery and the Banco de Terras", url: "https://agader.xunta.gal/es/recuperacion-de-tierras" },
+  lei11: { label: "SITEGAL: Lei 11/2021 de recuperación da terra agraria", url: "https://info-sitegal.xunta.gal/gl/paxina/lei-112021-do-14-de-maio-de-recuperacion-da-terra-agraria-de-galicia" },
+  bancoBalance: { label: "Campo Galego: balance of the land-recovery law (≈10,200 ha mobilised, May 2025)", url: "https://www.campogalego.gal/balance-da-lei-de-recuperacion-de-terra-agraria/" },
+  mapaRents: { label: "MAPA: rural lease rents survey 2020–2024 (Galicia €172/ha in 2023)", url: "https://www.mapa.gob.es/dam/mapa/contenido/estadisticas/temas/estadisticas-agrarias/1.economicas/canones-de-arrendamientos-rusticos/canones-arrendamiento-26.pdf" },
+  ley49: { label: "BOE: Ley 49/2003 de Arrendamientos Rústicos (minimum 5 years)", url: "https://www.boe.es/buscar/act.php?id=BOE-A-2003-21616" },
+  craega: { label: "Campo Galego: CRAEGA 2025 report (€118M, 46,677 ha, +6.4%)", url: "https://www.campogalego.es/el-sector-ecologico-gallego-supero-los-118-millones-de-euros-e-incremento-su-superficie-certificada-en-2025" },
+  castanaShare: { label: "La Región: ≈58% of Spain's chestnuts are harvested in Ourense", url: "https://www.laregion.es/articulo/ourense/casi-60-castana-que-produce-espana-recoge-ourense/202308302242181241672.html" },
+  castanaFuture: { label: "La Región, Nov 2025: PGI chestnut producers 124 → 170, area doubled", url: "https://www.laregion.es/la-revista/castana-historia-futuro_1_20251121-4064673.html" },
 } as const;
 
 export type SourceKey = keyof typeof SOURCES;
@@ -59,7 +70,7 @@ export const BRIEF = {
   persona: { en: "32 years old, living in San Xoán de Río (Ourense, Galicia)", es: "32 años, vive en San Xoán de Río (Ourense, Galicia)" } as T,
   assets: [
     { icon: "🏡", label: { en: "Family stone house needing renovation", es: "Casa familiar de piedra que necesita reforma" }, use: { en: "Rented as a whole-house tourist let after an €8k refit, and the base of operations", es: "Se alquila entera como vivienda de uso turístico tras una reforma de 8.000 €, y es la base de operaciones" } },
-    { icon: "🌱", label: { en: "2 hectares of rural land", es: "2 hectáreas de terreno rural" }, use: { en: "The first event venue, plus a pilot for neighbours renting their land", es: "El primer espacio para eventos y un piloto para que los vecinos alquilen sus fincas" } },
+    { icon: "🌱", label: { en: "2 hectares of rural land", es: "2 hectáreas de terreno rural" }, use: { en: "The first event venue, a 1 ha demonstration plot, and the pilot for villagers leasing land to agricultural projects for 5+ years", es: "El primer espacio para eventos, 1 ha de parcela demostrativa y el piloto para que los vecinos arrienden fincas a proyectos agrarios por 5+ años" } },
     { icon: "🚗", label: { en: "A small car", es: "Un coche pequeño" }, use: { en: "Logistics: event kit, supplies, owner visits. Paid guest transfers go to licensed taxis, as the law requires.", es: "Logística: material de eventos, compras, visitas a propietarios. Los traslados de clientes los hacen taxis con licencia, como exige la ley." } },
     { icon: "💻", label: { en: "Good general digital skills", es: "Buenas competencias digitales" }, use: { en: "Website, bookings and the AI concierge's knowledge base", es: "Web, reservas y la base de conocimiento del conserje IA" } },
     { icon: "🧭", label: { en: "Deep knowledge of the local area", es: "Conocimiento profundo de la zona" }, use: { en: "The product itself: routes, owners, cooks, musicians, festivals", es: "El producto en sí: rutas, propietarios, cocineros, músicos, fiestas" } },
@@ -82,8 +93,8 @@ export const CONTEXT_POINTS: { title: T; body: T; source: SourceKey }[] = [
   {
     title: { en: "Rural Valley campus (Os Biocos)", es: "Campus Rural Valley (Os Biocos)" },
     body: {
-      en: "The municipality's startup campus: 50 cabins, €350/month including housing, meals and gigabit fibre. The first cohort arrives in March 2027, with 120 entrepreneurs a year expected from 16 countries. They will need relocation help and things to do, so we partner with the campus instead of competing on housing.",
-      es: "El campus de startups del concello: 50 cabañas, 350 €/mes con alojamiento, comidas y fibra de 1 Gb. La primera promoción llega en marzo de 2027 y se esperan 120 emprendedores al año de 16 países. Necesitarán ayuda para instalarse y cosas que hacer, así que colaboramos con el campus en lugar de competir en alojamiento.",
+      en: "The municipality's startup campus: 50 cabins, €350/month including housing, meals and gigabit fibre. The first cohort arrives in March 2027, with 120 entrepreneurs a year expected from 16 countries. They will need things to do, places to celebrate and, for the agri-food ideas among them, land, so we partner with the campus instead of competing on housing.",
+      es: "El campus de startups del concello: 50 cabañas, 350 €/mes con alojamiento, comidas y fibra de 1 Gb. La primera promoción llega en marzo de 2027 y se esperan 120 emprendedores al año de 16 países. Necesitarán cosas que hacer, sitios donde celebrar y, para las ideas agroalimentarias, tierra, así que colaboramos con el campus en lugar de competir en alojamiento.",
     },
     source: "ruralvalley",
   },
@@ -94,6 +105,14 @@ export const CONTEXT_POINTS: { title: T; body: T; source: SourceKey }[] = [
       es: "Una red de vivienda de 260.941 € entre 9 concellos. Ha recibido más de 170 consultas de propietarios, cerca del 60 % sobre financiación o ayudas. Es nuestra mejor vía para llegar a quien tiene casas y fincas que ofrecer.",
     },
     source: "idealista",
+  },
+  {
+    title: { en: "Cambela agroforestry polygon", es: "Polígono agroforestal de Cambela" },
+    body: {
+      en: "The Xunta is consolidating 96.4 hectares in this municipality, split into 301 parcels owned by 135 people, for extensive organic cattle. It proves two things: the land here is worth working, and ownership is so fragmented that a project cannot assemble it alone. That gap is our land service.",
+      es: "La Xunta está agrupando 96,4 hectáreas en este concello, repartidas en 301 parcelas de 135 propietarios, para vacuno extensivo ecológico. Demuestra dos cosas: que la tierra merece trabajarse y que la propiedad está tan fragmentada que un proyecto no puede reunirla solo. Ese hueco es nuestro servicio de tierra.",
+    },
+    source: "cambela",
   },
   {
     title: { en: "Transport gap", es: "Hueco de transporte" },
@@ -141,14 +160,14 @@ export const PACKAGES: Package[] = [
     ],
   },
   {
-    id: "trial", name: { en: "Try living here", es: "Prueba a vivir aquí" }, period: { en: "3 months", es: "3 meses" }, price: 900, directCost: 300, image: "stone-house",
-    tagline: { en: "Test whether you could live here, with an easy way out if it doesn't suit you.", es: "Comprueba si podrías vivir aquí, con una salida fácil si no te convence." },
+    id: "trial", name: { en: "A season here", es: "Una temporada aquí" }, period: { en: "3 months", es: "3 meses" }, price: 900, directCost: 300, image: "stone-house",
+    tagline: { en: "Three months for remote workers, project teams and families thinking about the village, with an easy way out.", es: "Tres meses para teletrabajadores, equipos de proyecto y familias que se plantean el pueblo, con una salida fácil." },
     includes: [
       { en: "Everything in Live like a local", es: "Todo lo de Vive como un local" },
-      { en: "Relocation onboarding: padrón (town registration), NIE/TIE appointments, bank account, SIM", es: "Acogida: empadronamiento, citas de NIE/TIE, cuenta bancaria, SIM" },
-      { en: "School and health-centre introductions for families", es: "Contacto con el colegio y el centro de salud para familias" },
-      { en: "Monthly one-to-one review of how the move is going", es: "Revisión mensual individual de cómo va el cambio" },
-      { en: "Option to continue on the relocation subscription", es: "Opción de seguir con la suscripción de reubicación" },
+      { en: "Help finding a longer let and a desk with fibre", es: "Ayuda para encontrar un alquiler más largo y una mesa con fibra" },
+      { en: "Introductions at the Concello, the school and the health centre", es: "Presentaciones en el Concello, el colegio y el centro de salud" },
+      { en: "Monthly one-to-one review of how the season is going", es: "Revisión mensual individual de cómo va la temporada" },
+      { en: "First look at parcels coming up for multi-year lease", es: "Acceso anticipado a las fincas que salen en arrendamiento plurianual" },
     ],
   },
 ];
@@ -164,31 +183,8 @@ export const LODGING = {
   commission: 0.15,
 };
 
-export const RELOCATION = {
-  onboarding: 500,
-  monthly: 99,
-  onboardingIncludes: [
-    { en: "NIE/TIE appointment strategy and document checklist", es: "Estrategia de citas de NIE/TIE y lista de documentos" },
-    { en: "Padrón (town registration) at the Concello", es: "Empadronamiento en el Concello" },
-    { en: "Bank account, phone line and health-centre registration", es: "Cuenta bancaria, línea de teléfono y alta en el centro de salud" },
-    { en: "School enrolment help for families", es: "Ayuda con la matrícula escolar para familias" },
-    { en: "Starter pack of local contacts (plumber, mechanic, gestor)", es: "Contactos locales de confianza (fontanero, mecánico, gestor)" },
-  ] as T[],
-  monthlyIncludes: [
-    { en: "Monthly check-in and help with paperwork", es: "Seguimiento mensual y ayuda con papeleo" },
-    { en: "Priority AI concierge and a named human contact", es: "Conserje IA prioritario y una persona de referencia" },
-    { en: "Community introductions and invitations to events", es: "Presentaciones en la comunidad e invitaciones a eventos" },
-    { en: "10% off all experiences and add-ons", es: "10 % de descuento en experiencias y extras" },
-  ] as T[],
-  competitors: [
-    { name: "StartAbroad", note: { en: "Concierge covering padrón and TIE, plus one month of support. Priced by quote.", es: "Servicio con padrón y TIE y un mes de soporte. Precio bajo presupuesto." }, source: "startAbroad" as SourceKey },
-    { name: "Globexs", note: { en: "City packages covering housing, padrón and NIE/TIE. Priced by quote.", es: "Paquetes urbanos con vivienda, padrón y NIE/TIE. Precio bajo presupuesto." }, source: "globexs" as SourceKey },
-    { name: "Lexmovea", note: { en: "Essentials or full-service tiers with 60–90 days of support. Priced by quote.", es: "Niveles básico o completo con 60–90 días de soporte. Precio bajo presupuesto." }, source: "lexmovea" as SourceKey },
-  ],
-  diyCost: { en: "€300–700 in fees and document costs if you do it yourself", es: "300–700 € en tasas y documentos si lo haces por tu cuenta" } as T,
-};
-
-// Verified against official sources, September 2026.
+// Verified against official sources, September 2026. Kept for the concierge: non-EU
+// project owners and remote workers ask about it.
 export const VISA = {
   smiAnnual: 17094,
   smiMonthly14: 1221,
@@ -288,7 +284,8 @@ export const SEASONS: { name: Season; months: T; headline: T }[] = [
 export const HOST_OFFERS: { title: T; share: T; body: T }[] = [
   { title: { en: "Rent out your house", es: "Alquila tu casa" }, share: { en: "You keep 85%", es: "Te quedas el 85 %" }, body: { en: "We bring vetted guests for stays from one week to three months, handle cleaning between stays, help with the tourist-rental registration, and advise on the RE-HABITA renovation grants.", es: "Traemos huéspedes verificados para estancias de una semana a tres meses, nos ocupamos de la limpieza, te ayudamos con el alta de vivienda de uso turístico y te orientamos sobre las ayudas de RE-HABITA." } },
   { title: { en: "Rent out your land, chestnut grove or wine cellar", es: "Alquila tu finca, souto o adega" }, share: { en: "You keep 80% of the venue fee", es: "Te quedas el 80 % del alquiler del espacio" }, body: { en: "Birthdays, magostos, company retreats and family reunions. Venues typically earn €300–500 per event. We bring insurance, clean-up and the permit paperwork.", es: "Cumpleaños, magostos, retiros de empresa y reuniones familiares. Un espacio suele ganar 300–500 € por evento. Ponemos el seguro, la limpieza y los permisos." } },
-  { title: { en: "Offer your skills", es: "Ofrece tu oficio" }, share: { en: "You set your fee", es: "Tú pones el precio" }, body: { en: "Guides, octopus cooks, bakers, gaiteiros (bagpipers), craftspeople, licensed taxi drivers. You join the add-on marketplace and get paid per booking.", es: "Guías, pulpeiras, panaderos, gaiteiros, artesanos, taxistas con licencia. Entras en el catálogo de extras y cobras por reserva." } },
+  { title: { en: "Lease your land for years", es: "Arrienda tu finca por años" }, share: { en: "You keep 85% of the rent, every year", es: "Te quedas el 85 % del canon, cada año" }, body: { en: "Chestnut, organic, livestock and beekeeping projects need land for 5 to 25 years. We find the project, draft the lease under Ley 49/2003, register it and pay you every year. Land that is worked stays cleared and does not burn.", es: "Los proyectos de castaña, ecológico, ganadería y apicultura necesitan tierra de 5 a 25 años. Buscamos el proyecto, redactamos el contrato según la Ley 49/2003, lo registramos y te pagamos cada año. La tierra trabajada se mantiene limpia y no arde." } },
+  { title: { en: "Offer your skills", es: "Ofrece tu oficio" }, share: { en: "You set your fee", es: "Tú pones el precio" }, body: { en: "Guides, octopus cooks, bakers, gaiteiros (bagpipers), craftspeople, licensed taxi drivers, farmhands and harvest crews. You join the marketplace and get paid per booking or per season.", es: "Guías, pulpeiras, panaderos, gaiteiros, artesanos, taxistas con licencia, peones y cuadrillas de cosecha. Entras en el catálogo y cobras por reserva o por temporada." } },
 ];
 
 export const OUTREACH_PLAN: { item: T; cost: number }[] = [
@@ -302,7 +299,7 @@ export const OUTREACH_PLAN: { item: T; cost: number }[] = [
 export const BUDGET: { item: T; amount: number; note: T; fromUser: boolean }[] = [
   { item: { en: "House refit", es: "Reforma de la casa" }, amount: 8000, note: { en: "Cosmetic refit so the whole house can be let: paint, beds, bathroom, heating. Not structural work.", es: "Reforma estética para alquilar la casa entera: pintura, camas, baño, calefacción. Sin obra estructural." }, fromUser: true },
   { item: { en: "Marketing", es: "Marketing" }, amount: 3000, note: { en: "Launch content, ads targeting Madrid, Vigo, Ourense and remote-worker communities", es: "Contenido de lanzamiento y anuncios en Madrid, Vigo, Ourense y comunidades de teletrabajo" }, fromUser: true },
-  { item: { en: "Owner outreach", es: "Captación de propietarios" }, amount: 1000, note: { en: "Finding villagers and emigrants with houses and land to list", es: "Encontrar vecinos y emigrantes con casas y fincas" }, fromUser: true },
+  { item: { en: "Owner outreach", es: "Captación de propietarios" }, amount: 1000, note: { en: "Finding villagers and emigrants with houses and land to list, including heirs abroad for multi-year land leases", es: "Encontrar vecinos y emigrantes con casas y fincas, incluidos herederos en el extranjero para arrendamientos plurianuales" }, fromUser: true },
   { item: { en: "Insurance, registrations, gestor", es: "Seguros, registros, gestoría" }, amount: 2500, note: { en: "Liability insurance, REAT registrations, self-employed registration, accountant", es: "Seguro de responsabilidad civil, altas en el REAT, alta de autónomo, gestoría" }, fromUser: false },
   { item: { en: "AI concierge + website", es: "Conserje IA + web" }, amount: 1500, note: { en: "Knowledge base, hosting, AI usage for the year", es: "Base de conocimiento, alojamiento web, uso de IA durante el año" }, fromUser: false },
   { item: { en: "Event kit", es: "Kit de eventos" }, amount: 1500, note: { en: "Gazebo, 40 chairs, tables, festoon lights. Owning it beats renting after about 10 events.", es: "Carpa, 40 sillas, mesas y luces. Comprarlo compensa a partir de unos 10 eventos." }, fromUser: false },
@@ -315,11 +312,13 @@ export type Line = { id: string; label: T; unitLabel: T; volume: number; price: 
 export const LINES: Line[] = [
   { id: "week", label: { en: "1-week packages", es: "Paquetes de 1 semana" }, unitLabel: { en: "people", es: "personas" }, volume: 150, price: 220, costRate: 80 / 220, min: 0, max: 400, step: 10 },
   { id: "month", label: { en: "1-month packages", es: "Paquetes de 1 mes" }, unitLabel: { en: "people", es: "personas" }, volume: 20, price: 450, costRate: 150 / 450, min: 0, max: 80, step: 2 },
-  { id: "trial", label: { en: "3-month packages", es: "Paquetes de 3 meses" }, unitLabel: { en: "people", es: "personas" }, volume: 8, price: 900, costRate: 300 / 900, min: 0, max: 40, step: 1 },
+  { id: "trial", label: { en: "3-month packages (a season here)", es: "Paquetes de 3 meses (una temporada)" }, unitLabel: { en: "people", es: "personas" }, volume: 8, price: 900, costRate: 300 / 900, min: 0, max: 40, step: 1 },
   { id: "house", label: { en: "Own house (whole-house lets)", es: "Casa propia (alquiler completo)" }, unitLabel: { en: "nights", es: "noches" }, volume: 100, price: 110, costRate: 2500 / 11000, min: 0, max: 300, step: 10 },
   { id: "hosts", label: { en: "15% on villagers' houses", es: "15 % sobre casas de vecinos" }, unitLabel: { en: "€k booked", es: "k€ reservados" }, volume: 40, price: 150, costRate: 0, min: 0, max: 120, step: 5 },
   { id: "events", label: { en: "Private events on villagers' land", es: "Eventos privados en fincas" }, unitLabel: { en: "events", es: "eventos" }, volume: 25, price: 2000, costRate: 0.68, min: 0, max: 60, step: 1 },
-  { id: "relocation", label: { en: "Relocation (onboarding + 5 months × €99)", es: "Reubicación (acogida + 5 meses × 99 €)" }, unitLabel: { en: "clients", es: "clientes" }, volume: 15, price: 995, costRate: 2000 / 14925, min: 0, max: 60, step: 1 },
+  // Land for agricultural projects: leases of 5–25 years on villagers' parcels.
+  { id: "land", label: { en: "Agricultural project set-ups (multi-year leases)", es: "Puesta en marcha de proyectos agrarios (arrendamientos plurianuales)" }, unitLabel: { en: "projects", es: "proyectos" }, volume: 10, price: 1500, costRate: 0.2, min: 0, max: 30, step: 1 },
+  { id: "landMgmt", label: { en: "Land management + 15% rent commission", es: "Gestión de fincas + 15 % del canon" }, unitLabel: { en: "projects", es: "proyectos" }, volume: 10, price: 800, costRate: 0.1, min: 0, max: 30, step: 1 },
 ];
 
 export const FIXED_COSTS: { item: T; amount: number }[] = [
@@ -361,7 +360,7 @@ export const TIMELINE: { when: T; what: T[] }[] = [
   ] },
   { when: { en: "Month 2 · Nov 2026", es: "Mes 2 · nov 2026" }, what: [
     { en: "Pilot magosto in a neighbour's chestnut grove, launched with neighbours and returning emigrants", es: "Magosto piloto en el souto de un vecino, con vecinos y emigrantes" },
-    { en: "List the first 5 houses and plots", es: "Publicar las primeras 5 casas y fincas" },
+    { en: "List the first 5 houses and 10 parcels; first owner meetings about multi-year leases", es: "Publicar las primeras 5 casas y 10 fincas; primeras reuniones con propietarios sobre arrendamientos plurianuales" },
     { en: "Partner agreements: catamaran, winery, caterer, marquee hire", es: "Acuerdos con catamarán, bodega, catering y carpas" },
   ] },
   { when: { en: "Month 3 · Dec 2026", es: "Mes 3 · dic 2026" }, what: [
@@ -372,10 +371,10 @@ export const TIMELINE: { when: T; what: T[] }[] = [
   { when: { en: "Months 4–5 · Jan–Feb 2027", es: "Meses 4–5 · ene–feb 2027" }, what: [
     { en: "Entroido carnival packages", es: "Paquetes de Entroido" },
     { en: "Outreach to companies for team retreats", es: "Captación de empresas para retiros" },
-    { en: "Relocation partnership agreed with Rural Valley", es: "Acuerdo de reubicación con Rural Valley" },
+    { en: "First multi-year land lease signed: parcels consolidated, contract under Ley 49/2003", es: "Primer arrendamiento plurianual firmado: parcelas agrupadas, contrato según la Ley 49/2003" },
   ] },
   { when: { en: "Month 6 · Mar 2027", es: "Mes 6 · mar 2027" }, what: [
-    { en: "First Rural Valley cohort arrives; onboarding and subscriptions start", es: "Llega la primera promoción de Rural Valley; empiezan acogidas y suscripciones" },
+    { en: "First Rural Valley cohort arrives: guests, event clients, and land for its agri-food projects", es: "Llega la primera promoción de Rural Valley: huéspedes, clientes de eventos y tierra para sus proyectos agroalimentarios" },
     { en: "Weekend events on villagers' land", es: "Eventos de fin de semana en fincas de vecinos" },
   ] },
   { when: { en: "Months 7–8 · Apr–May 2027", es: "Meses 7–8 · abr–may 2027" }, what: [
@@ -388,7 +387,7 @@ export const TIMELINE: { when: T; what: T[] }[] = [
   ] },
   { when: { en: "Month 12 · Sep 2027", es: "Mes 12 · sep 2027" }, what: [
     { en: "Grape-harvest experiences", es: "Experiencias de vendimia" },
-    { en: "Loan fully repaid; year-two plan (own travel-agency licence?)", es: "Préstamo devuelto; plan del segundo año (¿licencia propia de agencia?)" },
+    { en: "Loan fully repaid; 10 projects under management; year-two plan (own travel-agency licence?)", es: "Préstamo devuelto; 10 proyectos en gestión; plan del segundo año (¿licencia propia de agencia?)" },
   ] },
 ];
 
@@ -399,7 +398,9 @@ export const RISKS: { risk: T; mitigation: T }[] = [
   { risk: { en: "Seasonality and winter at 875 m", es: "Estacionalidad e invierno a 875 m" }, mitigation: { en: "Winter products (skiing, Entroido, hot springs, fireside stays) and Rural Valley arrivals in spring flatten the curve.", es: "Productos de invierno (esquí, Entroido, termas, chimenea) y las llegadas de Rural Valley en primavera suavizan la curva." } },
   { risk: { en: "No high-speed train stop nearby since June 2025", es: "Sin parada de AVE cerca desde junio de 2025" }, mitigation: { en: "Arrival via Ourense station with a licensed taxi booked by us.", es: "Llegada por la estación de Ourense con un taxi con licencia reservado por nosotros." } },
   { risk: { en: "One person has limited time", es: "Una sola persona tiene tiempo limitado" }, mitigation: { en: "Freelance guides and event staff paid per job (already in direct costs). The AI concierge answers routine questions around the clock.", es: "Guías y personal de eventos por encargo (ya en costes directos). El conserje IA responde las dudas habituales a cualquier hora." } },
-  { risk: { en: "Overlap with Rural Valley's €350/month housing", es: "Solapamiento con el alojamiento de Rural Valley a 350 €/mes" }, mitigation: { en: "We don't compete on housing. We sell its founders relocation help, experiences and events.", es: "No competimos en alojamiento. Vendemos a sus fundadores reubicación, experiencias y eventos." } },
+  { risk: { en: "Overlap with Rural Valley's €350/month housing", es: "Solapamiento con el alojamiento de Rural Valley a 350 €/mes" }, mitigation: { en: "We don't compete on housing. We sell its founders experiences and events, and offer its agri-food projects land.", es: "No competimos en alojamiento. Vendemos a sus fundadores experiencias y eventos, y ofrecemos tierra a sus proyectos agroalimentarios." } },
+  { risk: { en: "Land ownership is scattered: the Cambela polygon needs 135 owners for 96 ha, so one project may need a dozen signatures", es: "La propiedad está dispersa: el polígono de Cambela necesita 135 propietarios para 96 ha, así que un proyecto puede exigir una docena de firmas" }, mitigation: { en: "We are the local who knows every heir. One lease per project across several owners; unknown owners go through the Banco de Terras. The set-up fee pays for that work.", es: "Somos quien conoce a cada heredero. Un contrato por proyecto con varios propietarios; los desconocidos pasan por el Banco de Terras. La puesta en marcha paga ese trabajo." } },
+  { risk: { en: "Owners fear a 5-year minimum lease", es: "Los propietarios temen el mínimo de 5 años" }, mitigation: { en: "Ley 49/2003 protects both sides: written contract, yearly rent, the land stays theirs and comes back cleared. We start with parcels already abandoned for a decade.", es: "La Ley 49/2003 protege a ambas partes: contrato escrito, canon anual, la tierra sigue siendo suya y vuelve limpia. Empezamos por fincas abandonadas desde hace una década." } },
   { risk: { en: "Municipal elections in May 2027 slow council decisions", es: "Las elecciones municipales de mayo de 2027 frenan decisiones" }, mitigation: { en: "The model has no council contract. Any municipal deal is upside only.", es: "El modelo no depende de contratos municipales. Cualquier acuerdo es un extra." } },
   { risk: { en: "Villagers hesitant to rent their land", es: "Vecinos reacios a alquilar sus fincas" }, mitigation: { en: "Owners are paid the week after each event, keep 80%, and are covered by our liability insurance. We start with a pilot magosto they can attend.", es: "Cobran la semana siguiente al evento, se quedan el 80 % y los cubre nuestro seguro. Empezamos con un magosto piloto al que pueden venir." } },
   { risk: { en: "Demand is slower than planned", es: "La demanda llega más despacio" }, mitigation: { en: "The sliders show the break-even. Pre-sell events and company retreats before fixing dates.", es: "Los controles muestran el punto de equilibrio. Prevender eventos y retiros antes de cerrar fechas." } },
@@ -458,6 +459,22 @@ export const COMPLIANCE: { item: T; detail: T; status: Status; sources: SourceKe
     status: "verified", sources: [],
   },
   {
+    item: { en: "Multi-year land leases: Ley 49/2003", es: "Arrendamientos de fincas plurianuales: Ley 49/2003" },
+    detail: {
+      en: "Rural leases last a minimum of five years; any shorter clause is void. Unless the owner gives a year's notice, the contract renews by five-year periods. Contracts are written, rent is usually yearly, and improvements need the owner's consent. We broker and manage the lease; the farming, its registrations (REAGA, CAP) and its insurance belong to the project.",
+      es: "Los arrendamientos rústicos duran un mínimo de cinco años; cualquier plazo menor es nulo. Salvo aviso del propietario con un año de antelación, el contrato se prorroga por periodos de cinco años. Se firma por escrito, el canon suele ser anual y las mejoras necesitan consentimiento. Nosotros intermediamos y gestionamos; la actividad agraria, sus registros (REAGA, PAC) y su seguro son del proyecto.",
+    },
+    status: "verified", sources: ["ley49"],
+  },
+  {
+    item: { en: "Land recovery: Lei 11/2021 and the Banco de Terras", es: "Recuperación de tierras: Lei 11/2021 y Banco de Terras" },
+    detail: {
+      en: "Galicia's land-recovery law created public instruments for abandoned parcels: the Banco de Terras (public land bank), model villages and agroforestry polygons. San Xoán de Río already has one, Cambela (96.4 ha, 301 parcels, 135 owners). We use the bank for parcels with unknown owners and coordinate with Agader rather than compete with it.",
+      es: "La ley gallega de recuperación de tierras creó instrumentos públicos para las parcelas abandonadas: el Banco de Terras, las aldeas modelo y los polígonos agroforestales. San Xoán de Río ya tiene uno, Cambela (96,4 ha, 301 parcelas, 135 propietarios). Usamos el banco para las parcelas de propietario desconocido y nos coordinamos con Agader en lugar de competir con ella.",
+    },
+    status: "verified", sources: ["lei11", "bancoTerras", "cambela", "cambelaDog"],
+  },
+  {
     item: { en: "GDPR + AI transparency", es: "RGPD + transparencia de la IA" },
     detail: { en: "Leads are stored with consent. The concierge always says it is an AI, in line with the EU AI Act's transparency rules.", es: "Los contactos se guardan con consentimiento. El conserje siempre dice que es una IA, conforme a la transparencia de la Ley de IA de la UE." },
     status: "verified", sources: [],
@@ -465,16 +482,17 @@ export const COMPLIANCE: { item: T; detail: T; status: Status; sources: SourceKe
 ];
 
 export const FUNDING: { name: T; amount: T; fit: T; source: SourceKey }[] = [
-  { name: { en: "Xunta young farmer aid (MR404A)", es: "Ayuda de la Xunta a jóvenes agricultores (MR404A)" }, amount: { en: "€30,000, up to €70,000", es: "30.000 €, hasta 70.000 €" }, fit: { en: "Ages 18–40. Needs a farm plan, for example a chestnut grove or berries on the 2 ha. Counted as funding, not revenue.", es: "De 18 a 40 años. Requiere un plan agrario, p. ej. souto o frutos rojos en las 2 ha. Es financiación, no ingreso." }, source: "youngFarmer" },
+  { name: { en: "Xunta young farmer aid (MR404A)", es: "Ayuda de la Xunta a jóvenes agricultores (MR404A)" }, amount: { en: "€30,000, up to €70,000", es: "30.000 €, hasta 70.000 €" }, fit: { en: "Ages 18–40. For the project owners on the parcels we lease, and for our own 1 ha demonstration plot. Counted as funding, not revenue.", es: "De 18 a 40 años. Para los titulares de proyecto en las fincas que arrendamos y para nuestra parcela demostrativa de 1 ha. Es financiación, no ingreso." }, source: "youngFarmer" },
   { name: { en: "Rural diversification investment aid (MR708A)", es: "Ayuda a inversiones de diversificación rural (MR708A)" }, amount: { en: "Subsidised capex", es: "Inversión subvencionada" }, fit: { en: "Could co-fund the house refit or the event kit. 2026 call open.", es: "Podría cofinanciar la reforma o el kit de eventos. Convocatoria 2026 abierta." }, source: "diversification" },
 ];
 
 // What changed versus the team's v1 prototype.
 export const FIXES: { was: T; now: T }[] = [
   { was: { en: "A regional platform that ignored the persona's house, land, car and local knowledge", es: "Una plataforma regional que ignoraba la casa, la finca, el coche y el conocimiento local" }, now: { en: "Built around those assets: the house is lodging, the land is the first venue, the car covers logistics, local knowledge is the product", es: "Construido sobre esos recursos: la casa es alojamiento, la finca el primer espacio, el coche la logística y el conocimiento local el producto" } },
-  { was: { en: "Revenue depended on €15k/year council contracts and a 12% cut of shop spending", es: "Los ingresos dependían de contratos municipales de 15.000 €/año y un 12 % del gasto en comercios" }, now: { en: "Revenue starts in month 2 from guests, events and relocation clients, with no council contract needed", es: "Ingresos desde el mes 2 con huéspedes, eventos y reubicaciones, sin contratos municipales" } },
+  { was: { en: "Revenue depended on €15k/year council contracts and a 12% cut of shop spending", es: "Los ingresos dependían de contratos municipales de 15.000 €/año y un 12 % del gasto en comercios" }, now: { en: "Revenue starts in month 2 from guests, events and land leases, with no council contract needed", es: "Ingresos desde el mes 2 con huéspedes, eventos y arrendamientos de fincas, sin contratos municipales" } },
   { was: { en: "Unclear who receives the €750–1,550/month rent", es: "No quedaba claro quién cobra los 750–1.550 €/mes" }, now: { en: "Clear prices per period, lodging priced separately, and the 15% commission stated plainly", es: "Precios claros por periodo, alojamiento aparte y comisión del 15 % explícita" } },
-  { was: { en: "Competed with the village's own €350/month Rural Valley campus", es: "Competía con el propio campus Rural Valley a 350 €/mes" }, now: { en: "Partners with it: we sell relocation help, experiences and events to its 120 founders a year", es: "Colabora con él: vendemos reubicación, experiencias y eventos a sus 120 fundadores al año" } },
+  { was: { en: "Competed with the village's own €350/month Rural Valley campus", es: "Competía con el propio campus Rural Valley a 350 €/mes" }, now: { en: "Partners with it: we sell experiences and events to its 120 founders a year, and land to its agri-food projects", es: "Colabora con él: vendemos experiencias y eventos a sus 120 fundadores al año, y tierra a sus proyectos agroalimentarios" } },
+  { was: { en: "A relocation subscription (€99/month for paperwork): a thin service with no asset behind it", es: "Una suscripción de reubicación (99 €/mes por trámites): un servicio flojo sin ningún activo detrás" }, now: { en: "Multi-year land leases for agricultural projects: the village's most abandoned asset becomes recurring rent, set-up and management fees, and local jobs", es: "Arrendamientos plurianuales de fincas para proyectos agrarios: el activo más abandonado del pueblo se convierte en canon recurrente, puesta en marcha, gestión y empleo local" } },
   { was: { en: "Generated images, match scores for villages not yet surveyed, one wrong fact (A Pobra de Trives vs A Teixeira)", es: "Imágenes generadas, puntuaciones de pueblos sin estudiar y un dato erróneo (A Pobra de Trives en vez de A Teixeira)" }, now: { en: "Real, openly licensed photos with credits, sourced figures, and estimates labelled as estimates", es: "Fotos reales con licencia abierta y créditos, cifras con fuente y estimaciones señaladas" } },
   { was: { en: "“AI concierge” promised but never explained", es: "“Conserje IA” prometido pero sin explicar" }, now: { en: "A working concierge: an AI model answering from a curated local knowledge base", es: "Un conserje real: un modelo de IA que responde desde una base de conocimiento local" } },
   { was: { en: "No legal or financial plan", es: "Sin plan legal ni financiero" }, now: { en: "Compliance checked against official sources, €25k budget, 12-month P&L with loan repayment, risks and a timeline", es: "Cumplimiento verificado con fuentes oficiales, presupuesto de 25.000 €, cuenta de resultados a 12 meses con el préstamo, riesgos y calendario" } },

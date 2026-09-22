@@ -6,11 +6,11 @@ import { Photo } from "@/components/ui";
 import { eur, href, tx, type Lang, type T } from "@/lib/i18n";
 import { isAnswered, questionsFor, recommend, type Answers, type Question } from "@/lib/plan";
 
-const DEFAULTS: Partial<Answers> = { people: 2, guests: 30, nights: 3 };
+const DEFAULTS: Partial<Answers> = { people: 2, guests: 30, nights: 3, hectares: 6, workers: 2 };
 
 const CLEARED: Answers = {
   group: undefined, people: undefined, length: undefined, season: undefined, interests: undefined, lodging: undefined, taxi: undefined,
-  situation: undefined, eu: undefined, kids: undefined, eventType: undefined, guests: undefined, catering: undefined, extras: undefined,
+  projectType: undefined, hectares: undefined, years: undefined, workers: undefined, teamHousing: undefined, ruralValley: undefined, needs: undefined, eventType: undefined, guests: undefined, catering: undefined, extras: undefined,
   offer: undefined, condition: undefined, nights: undefined,
 };
 
@@ -249,7 +249,7 @@ function LeadForm({ answers, lang, headline, total }: { answers: Answers; lang: 
       </div>
       <label className="mt-3 flex items-start gap-2 text-sm text-ink-soft">
         <input type="checkbox" name="consent" required className="mt-1" />
-        {t({ en: "I agree that RuralOS can store these details to answer my request (GDPR). We never share them.", es: "Acepto que RuralOS guarde estos datos para responder a mi solicitud (RGPD). Nunca los compartimos." })}
+        {t({ en: "I agree that RuralRiver can store these details to answer my request (GDPR). We never share them.", es: "Acepto que RuralRiver guarde estos datos para responder a mi solicitud (RGPD). Nunca los compartimos." })}
       </label>
       {state === "error" && <p className="mt-2 text-sm text-chestnut">{error}</p>}
       <button disabled={state === "sending"} className="mt-4 rounded-full bg-moss px-6 py-2.5 text-sm font-semibold text-on-moss hover:opacity-90 disabled:opacity-50">

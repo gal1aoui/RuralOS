@@ -9,7 +9,7 @@ import { langOf } from "@/lib/lang";
 import "../globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-// Bricolage Grotesque is the typeface of the RuralOS wordmark (public/assets).
+// Bricolage Grotesque is the typeface of the RuralRiver wordmark (public/assets).
 const bricolage = Bricolage_Grotesque({ variable: "--font-bricolage", subsets: ["latin"] });
 
 export const viewport: Viewport = {
@@ -26,8 +26,8 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Promise<Metadata> {
   const lang = await langOf(params);
   return {
-    title: "RuralOS · San Xoán de Río",
-    description: tx({ en: "Stays, private events and relocation in San Xoán de Río and Terra de Trives (Galicia), run by a local host with an AI concierge.", es: "Estancias, eventos privados y reubicación en San Xoán de Río y Terra de Trives (Galicia), con un anfitrión local y un conserje IA." }, lang),
+    title: "RuralRiver · The Hidden Heaven",
+    description: tx({ en: "Stays, private events and multi-year land leases for agricultural projects in San Xoán de Río and Terra de Trives (Galicia), run by a local host with an AI concierge.", es: "Estancias, eventos privados y arrendamientos plurianuales de fincas para proyectos agrarios en San Xoán de Río y Terra de Trives (Galicia), con un anfitrión local y un conserje IA." }, lang),
   };
 }
 
@@ -36,7 +36,7 @@ const NAV: NavItem[] = [
   { path: "/packages", label: { en: "Packages", es: "Paquetes" } },
   { path: "/experiences", label: { en: "Experiences", es: "Experiencias" } },
   { path: "/events", label: { en: "Events", es: "Eventos" } },
-  { path: "/relocate", label: { en: "Relocate", es: "Mudarte" } },
+  { path: "/land", label: { en: "Land & projects", es: "Tierra y proyectos" } },
   { path: "/hosts", label: { en: "For locals", es: "Para vecinos" } },
   { path: "/concierge", label: { en: "AI concierge", es: "Conserje IA" } },
   { path: "/business", label: { en: "Business plan", es: "Plan de negocio" } },
@@ -59,9 +59,9 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         </a>
         <header className="sticky top-0 z-40 border-b border-line bg-paper/90 backdrop-blur">
           <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-            <Link href={href("/", lang)} className="flex items-center gap-2" aria-label="RuralOS · San Xoán de Río">
+            <Link href={href("/", lang)} className="flex items-center gap-2" aria-label="RuralRiver · The Hidden Heaven">
               <Logo />
-              <span className="hidden text-sm text-ink-soft sm:inline xl:hidden 2xl:inline">San Xoán de Río</span>
+              <span className="hidden whitespace-nowrap text-sm italic text-ink-soft sm:inline xl:hidden 2xl:inline">The Hidden Heaven</span>
             </Link>
             <DesktopNav items={NAV} lang={lang} label={t({ en: "Main", es: "Principal" })} />
             <div className="flex items-center gap-2">
@@ -76,8 +76,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           <div className="mx-auto grid max-w-6xl gap-6 px-4 py-10 text-sm sm:grid-cols-3">
             <div>
               <Logo reversed size="lg" />
-              <p className="mt-1 text-on-accent">San Xoán de Río · Terra de Trives</p>
-              <p className="mt-3">{t({ en: "A local host business: stays, private events on villagers' land, and relocation, with an AI concierge. Hackathon MVP, September 2026.", es: "Un negocio de anfitrión local: estancias, eventos privados en fincas de vecinos y reubicación, con un conserje IA. MVP de hackathon, septiembre de 2026." })}</p>
+              <p className="mt-1 text-on-accent">The Hidden Heaven · San Xoán de Río · Terra de Trives</p>
+              <p className="mt-3">{t({ en: "A local host business that puts the village's resources to work: stays in its houses, private events on its land, and multi-year leases of its abandoned parcels to agricultural projects, with an AI concierge. Hackathon MVP, September 2026.", es: "Un negocio de anfitrión local que pone a trabajar los recursos del pueblo: estancias en sus casas, eventos privados en sus fincas y arrendamientos plurianuales de sus parcelas abandonadas a proyectos agrarios, con un conserje IA. MVP de hackathon, septiembre de 2026." })}</p>
             </div>
             <div className="flex flex-col gap-1">
               {NAV.map((n) => (

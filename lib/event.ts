@@ -45,12 +45,12 @@ export function quoteEvent({ guests, catering, extras, lang }: { guests: number;
   rows.push({
     label: t({ en: "Venue: a villager's land, grove or cellar", es: "Espacio: finca, souto o adega de un vecino" }),
     amount: VENUE_FEE,
-    to: t({ en: `Owner ${OWNER_SHARE * 100}% / RuralOS ${Math.round((1 - OWNER_SHARE) * 100)}%`, es: `Propietario ${OWNER_SHARE * 100} % / RuralOS ${Math.round((1 - OWNER_SHARE) * 100)} %` }),
+    to: t({ en: `Owner ${OWNER_SHARE * 100}% / RuralRiver ${Math.round((1 - OWNER_SHARE) * 100)}%`, es: `Propietario ${OWNER_SHARE * 100} % / RuralRiver ${Math.round((1 - OWNER_SHARE) * 100)} %` }),
   });
   rows.push({ label: `${t({ en: "Catering", es: "Catering" })}: ${t(cat.label).split(":")[0]} × ${guests}`, amount: cat.perGuest * guests, to: t({ en: "Local caterer", es: "Catering local" }) });
   for (const e of EXTRAS) {
     if (!extras.includes(e.id)) continue;
-    rows.push({ label: t(e.label), amount: e.price, estimate: e.estimate, to: e.id === "kit" ? "RuralOS" : t({ en: "Local supplier", es: "Proveedor local" }) });
+    rows.push({ label: t(e.label), amount: e.price, estimate: e.estimate, to: e.id === "kit" ? "RuralRiver" : t({ en: "Local supplier", es: "Proveedor local" }) });
   }
   const subtotal = rows.reduce((s, r) => s + r.amount, 0);
   const coordination = Math.max(COORDINATION_MIN, subtotal * COORDINATION_RATE);

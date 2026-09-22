@@ -1,9 +1,14 @@
 @import "tailwindcss";
 
-/* RuralOS brand palette (public/assets): green #2F5D4A, sage #77B393,
-   lime #A7C049 / #6F8A18, off-white #F3F6F0. Light is the default; dark follows the
-   system unless the visitor picks a theme (data-theme on <html>, set before paint). */
+/* RuralRiver brand palette (public/assets, from the team's logo): green #2F5D4A, sage #77B393,
+   lime #A7C049 / #6F8A18, river blue #1E9FF0, off-white #F3F6F0. Light is the default; dark
+   follows the system unless the visitor picks a theme (data-theme on <html>). */
 :root {
+  --wordmark-river: #1483c9; /* "River" in text, 4.5:1 on paper */
+  --brand-river: #1e9ff0; /* the river in the logo */
+  --map-filter: none;
+  --show-on-light: inline; /* the logo variant for light surfaces */
+  --show-on-dark: none;
   --paper: #f3f6f0;
   --stone: #e5ebe2;
   --stone-deep: #d5decf;
@@ -41,9 +46,14 @@
     --chestnut: #e0996c;
     --line: #2d3c34;
     --chart: #56a872; /* validated vs the dark surface */
-    --wordmark: #f3f6f0; /* = ruralos-wordmark-reversed.svg */
+    --wordmark: #f3f6f0;
     --wordmark-os: #77b393;
+    --wordmark-river: #5bbcf5;
+    --brand-river: #1e9ff0;
     --brand-dot: #a7c049;
+    --map-filter: invert(1) hue-rotate(180deg) brightness(0.82) contrast(0.9);
+    --show-on-light: none;
+    --show-on-dark: inline;
     color-scheme: dark;
   }
 }
@@ -63,9 +73,20 @@
   --chart: #56a872;
   --wordmark: #f3f6f0;
   --wordmark-os: #77b393;
+  --wordmark-river: #5bbcf5;
+  --brand-river: #1e9ff0;
   --brand-dot: #a7c049;
+  --map-filter: invert(1) hue-rotate(180deg) brightness(0.82) contrast(0.9);
+  --show-on-light: none;
+  --show-on-dark: inline;
   color-scheme: dark;
 }
+
+/* Land map (Leaflet): tiles follow the theme; labels use the brand type. */
+.leaflet-tile-pane { filter: var(--map-filter); }
+.leaflet-container { font-family: var(--font-geist-sans), system-ui, sans-serif; }
+.leaflet-tooltip.rr-label { background: var(--paper); color: var(--ink); border-color: var(--line); font-weight: 600; }
+.leaflet-container a.leaflet-control-attribution__link, .leaflet-control-attribution { font-size: 10px; }
 
 @theme inline {
   --color-paper: var(--paper);

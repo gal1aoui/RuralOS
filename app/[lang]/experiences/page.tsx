@@ -7,7 +7,7 @@ import { alternates, langOf } from "@/lib/lang";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/experiences">): Promise<Metadata> {
   const lang = await langOf(params);
-  return { title: tx({ en: "Experiences · RuralOS", es: "Experiencias · RuralOS" }, lang), alternates: alternates(lang, "/experiences") };
+  return { title: tx({ en: "Experiences · RuralRiver", es: "Experiencias · RuralRiver" }, lang), alternates: alternates(lang, "/experiences") };
 }
 
 export default async function ExperiencesPage({ params }: PageProps<"/[lang]/experiences">) {

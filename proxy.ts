@@ -18,6 +18,13 @@ function preferred(header: string | null): Lang {
 // their saved choice (cookie) first, then the browser's preference.
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  // The relocation feature became the land feature; old links still work.
+  const moved = pathname.match(/^\/(en|es)\/relocate\/?$/);
+  if (moved) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${moved[1]}/land`;
+    return NextResponse.redirect(url, 308);
+  }
   if (LOCALES.some((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`))) return;
   const saved = request.cookies.get("lang")?.value;
   const lang = saved && hasLang(saved) ? saved : preferred(request.headers.get("accept-language"));

@@ -7,7 +7,7 @@ import { alternates, langOf } from "@/lib/lang";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/concierge">): Promise<Metadata> {
   const lang = await langOf(params);
-  return { title: tx({ en: "AI concierge · RuralOS", es: "Conserje IA · RuralOS" }, lang), alternates: alternates(lang, "/concierge") };
+  return { title: tx({ en: "AI concierge · RuralRiver", es: "Conserje IA · RuralRiver" }, lang), alternates: alternates(lang, "/concierge") };
 }
 
 export default async function ConciergePage({ params, searchParams }: PageProps<"/[lang]/concierge">) {

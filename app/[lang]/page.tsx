@@ -19,7 +19,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const ways: { path: string; slug: ImgSlug; title: T; body: T; cta: T }[] = [
     { path: "/packages", slug: "sil-catamaran", title: { en: "Stay", es: "Quédate" }, body: { en: "Packages of 1 week, 1 month or 3 months with a guided walk, the Sil canyon, a winery and a local dinner. Lodging is booked separately with the host.", es: "Paquetes de 1 semana, 1 mes o 3 meses con paseo guiado, el cañón del Sil, una bodega y una cena local. El alojamiento se reserva aparte con el anfitrión." }, cta: { en: `From ${eur(PACKAGES[0].price, lang)} per person`, es: `Desde ${eur(PACKAGES[0].price, lang)} por persona` } },
     { path: "/events", slug: "queimada", title: { en: "Celebrate", es: "Celebra" }, body: { en: "Birthdays, retreats and magostos on villagers' land and in their wine cellars, with an octopus cook, a gaiteiro and a queimada.", es: "Cumpleaños, retiros y magostos en fincas y adegas de vecinos, con pulpeira, gaiteiro y queimada." }, cta: { en: "Build a live quote", es: "Calcula tu presupuesto" } },
-    { path: "/relocate", slug: "stone-house", title: { en: "Move", es: "Múdate" }, body: { en: "Try living here for three months, then keep a local fixer on subscription for the padrón, NIE/TIE, bank and schools.", es: "Prueba a vivir aquí tres meses y, después, mantén a alguien local por suscripción para el padrón, NIE/TIE, banco y colegio." }, cta: { en: "€500 onboarding + €99/month", es: "500 € de acogida + 99 €/mes" } },
+    { path: "/land", slug: "chestnuts", title: { en: "Farm", es: "Cultiva" }, body: { en: "Lease villagers' abandoned parcels for 5 to 25 years for chestnuts, organic farming, cattle or hives. We assemble the owners, draft the lease and hire in the village.", es: "Arrienda fincas abandonadas de vecinos de 5 a 25 años para castaños, ecológico, ganadería o colmenas. Reunimos a los propietarios, redactamos el contrato y contratamos en el pueblo." }, cta: { en: "From ≈€110/ha a year · leases of 5+ years", es: "Desde ≈110 €/ha al año · contratos de 5+ años" } },
   ];
   const steps: T[] = [
     { en: "Why are you coming?", es: "¿Por qué vienes?" },
@@ -34,8 +34,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         slug="navea-valley"
         lang={lang}
         eyebrow="San Xoán de Río · Terra de Trives · Ourense"
-        title={t({ en: "Spend a week, a month or a season in a Galician valley, with a host who grew up here.", es: "Pasa una semana, un mes o una temporada en un valle gallego, con un anfitrión que creció aquí." })}
-        lead={t({ en: "Chestnut forests, Roman bridges, the Sil canyon and Ribeira Sacra wine, 510 neighbours and a table set for you. Tell us why you're coming and we'll plan the rest.", es: "Bosques de castaños, puentes romanos, el cañón del Sil y el vino de la Ribeira Sacra, 510 vecinos y una mesa puesta para ti. Cuéntanos por qué vienes y planificamos el resto." })}
+        title={t({ en: "A week, a season or a decade in a Galician valley, with a host who grew up here.", es: "Una semana, una temporada o una década en un valle gallego, con un anfitrión que creció aquí." })}
+        lead={t({ en: "Stone houses to stay in, chestnut groves and meadows to celebrate on or to farm for years, 510 neighbours and a table set for you. Tell us why you're coming and we'll plan the rest.", es: "Casas de piedra donde quedarte, soutos y prados donde celebrar o cultivar durante años, 510 vecinos y una mesa puesta para ti. Cuéntanos por qué vienes y planificamos el resto." })}
       >
         <div className="mt-6 flex flex-wrap gap-3">
           <Button href={href("/plan", lang)}>{t({ en: "Plan my visit →", es: "Planifica tu visita →" })}</Button>
@@ -44,7 +44,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       </PageHero>
 
       <Section>
-        <SectionTitle eyebrow={t({ en: "Three ways in", es: "Tres formas de venir" })} title={t({ en: "Stay, celebrate or move.", es: "Quédate, celebra o múdate." })} lead={t({ en: "One local host, a network of villagers and suppliers, and an AI concierge that knows every route, festival and price in the valley.", es: "Un anfitrión local, una red de vecinos y proveedores, y un conserje IA que conoce cada ruta, fiesta y precio del valle." })} />
+        <SectionTitle eyebrow={t({ en: "Three ways in", es: "Tres formas de venir" })} title={t({ en: "Stay, celebrate or farm.", es: "Quédate, celebra o cultiva." })} lead={t({ en: "Every resource the village has, put to work: its houses, its land, its cooks and musicians, its owners. One local host, a network of villagers and suppliers, and an AI concierge that knows every route, festival, parcel and price in the valley.", es: "Todos los recursos del pueblo, puestos a trabajar: sus casas, su tierra, sus cocineras y músicos, sus propietarios. Un anfitrión local, una red de vecinos y proveedores, y un conserje IA que conoce cada ruta, fiesta, finca y precio del valle." })} />
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {ways.map((w) => (
             <Link key={w.path} href={href(w.path, lang)} className="group overflow-hidden rounded-2xl border border-line bg-paper transition hover:shadow-lg">
@@ -64,7 +64,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sun">{t({ en: "Not sure where to start?", es: "¿No sabes por dónde empezar?" })}</p>
             <h2 className="mt-2 text-3xl font-semibold sm:text-4xl">{t({ en: "Answer a few quick questions and get your plan and price.", es: "Responde unas preguntas rápidas y recibe tu plan con precio." })}</h2>
-            <p className="mt-3 text-on-accent/85">{t({ en: "The questionnaire asks why you're coming, who with, when and what you enjoy. It then recommends a package, an event set-up, a relocation plan or a hosting deal, with a price breakdown you can send to us in one click.", es: "El cuestionario pregunta por qué vienes, con quién, cuándo y qué te gusta. Después te recomienda un paquete, un evento, un plan de mudanza o un acuerdo como anfitrión, con el desglose de precios, y nos lo envías con un clic." })}</p>
+            <p className="mt-3 text-on-accent/85">{t({ en: "The questionnaire asks why you're coming, who with, when and what you enjoy. It then recommends a package, a startup landing, an event set-up, a multi-year land lease or a hosting deal, with a price breakdown you can send to us in one click.", es: "El cuestionario pregunta por qué vienes, con quién, cuándo y qué te gusta. Después te recomienda un paquete, un aterrizaje para tu startup, un evento, un arrendamiento de fincas plurianual o un acuerdo como anfitrión, con el desglose de precios, y nos lo envías con un clic." })}</p>
             <div className="mt-6"><Button href={href("/plan", lang)} variant="light">{t({ en: "Start the questionnaire →", es: "Empezar el cuestionario →" })}</Button></div>
           </div>
           <ol className="grid gap-2 text-sm">

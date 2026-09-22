@@ -3,12 +3,13 @@ import BusinessModel from "@/components/BusinessModel";
 import { Estimate, PageHero, Section, SectionTitle, Src } from "@/components/ui";
 import { BRIEF, BUDGET, COMPLIANCE, CONTEXT_POINTS, FACTS, FIXES, FUNDING, LOAN, RISKS, SOURCES, TIMELINE, loanPayment, type Status } from "@/lib/data";
 import { eur, tx, type T } from "@/lib/i18n";
+import { LAND_STATS, LEASE, PARCELS, quoteLease } from "@/lib/land";
 import { alternates, langOf } from "@/lib/lang";
 import { computeModel } from "@/lib/model";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/business">): Promise<Metadata> {
   const lang = await langOf(params);
-  return { title: tx({ en: "Business plan · RuralOS", es: "Plan de negocio · RuralOS" }, lang), alternates: alternates(lang, "/business") };
+  return { title: tx({ en: "Business plan · RuralRiver", es: "Plan de negocio · RuralRiver" }, lang), alternates: alternates(lang, "/business") };
 }
 
 const STATUS: Record<Status, { label: T; cls: string }> = {
@@ -23,6 +24,8 @@ export default async function BusinessPage({ params }: PageProps<"/[lang]/busine
   const e = (n: number) => eur(n, lang);
   const m = computeModel();
   const pay12 = loanPayment(LOAN.principal, LOAN.annualRate, 12);
+  const cambela = PARCELS.find((p) => p.id === "cambela")!;
+  const lease = quoteLease({ parcelIds: [cambela.id], years: 10, project: "organic", lang });
   return (
     <>
       <PageHero slug="navea-taboazas" lang={lang} eyebrow={t({ en: "Hackathon brief · business plan", es: "Reto del hackathon · plan de negocio" })} title={t({ en: `€25,000 in, ${e(Math.floor(m.revenue / 1000) * 1000)}+ revenue out, loan repaid within the year.`, es: `25.000 € de inversión, más de ${e(Math.floor(m.revenue / 1000) * 1000)} de ingresos y el préstamo devuelto en el año.` })} lead={<>{t({ en: "The brief", es: "El reto" })}: {t(BRIEF.persona)}. {t({ en: "Goal", es: "Objetivo" })}: {t(BRIEF.goal)}.</>} />
@@ -42,10 +45,10 @@ export default async function BusinessPage({ params }: PageProps<"/[lang]/busine
 
       <section className="bg-stone">
         <Section>
-          <SectionTitle eyebrow={t({ en: "2 · What we changed from v1", es: "2 · Qué cambiamos respecto a la v1" })} title={t({ en: "From a regional platform to a local business that works on day one.", es: "De plataforma regional a negocio local que funciona desde el primer día." })} lead={<>{t({ en: "Our first prototype pitched a relocation platform for several villages. Critical review found these gaps:", es: "Nuestro primer prototipo proponía una plataforma de reubicación para varios pueblos. La revisión crítica encontró estos fallos:" })} <Src k="team" /></>} />
+          <SectionTitle eyebrow={t({ en: "2 · What we changed since v1", es: "2 · Qué cambiamos desde la v1" })} title={t({ en: "From a regional platform to a local business that works on day one.", es: "De plataforma regional a negocio local que funciona desde el primer día." })} lead={<>{t({ en: "Our first prototype pitched a relocation platform for several villages; the second added a relocation subscription. Critical review found these gaps:", es: "Nuestro primer prototipo proponía una plataforma de reubicación para varios pueblos; el segundo añadió una suscripción de reubicación. La revisión crítica encontró estos fallos:" })} <Src k="team" /></>} />
           <div className="mt-8 overflow-x-auto rounded-2xl border border-line bg-paper">
             <table className="w-full min-w-[640px] text-sm">
-              <thead className="text-left"><tr><th className="w-1/2 p-3 text-chestnut">{t({ en: "v1 problem", es: "Problema de la v1" })}</th><th className="p-3 text-moss">{t({ en: "v2 answer", es: "Respuesta de la v2" })}</th></tr></thead>
+              <thead className="text-left"><tr><th className="w-1/2 p-3 text-chestnut">{t({ en: "Before", es: "Antes" })}</th><th className="p-3 text-moss">{t({ en: "Now", es: "Ahora" })}</th></tr></thead>
               <tbody className="divide-y divide-line">{FIXES.map((f) => <tr key={f.was.en}><td className="p-3 text-ink-soft">{t(f.was)}</td><td className="p-3">{t(f.now)}</td></tr>)}</tbody>
             </table>
           </div>
@@ -80,9 +83,35 @@ export default async function BusinessPage({ params }: PageProps<"/[lang]/busine
           {([
             { t: { en: "Stays", es: "Estancias" }, d: { en: "Packages of 1 week (€220), 1 month (€450) or 3 months (€900) per person, tourist services only. Our house is let whole (≈€110/night), and we take 15% on villagers' houses.", es: "Paquetes de 1 semana (220 €), 1 mes (450 €) o 3 meses (900 €) por persona, solo servicios turísticos. Nuestra casa se alquila entera (≈110 €/noche) y cobramos un 15 % en casas de vecinos." } },
             { t: { en: "Events", es: "Eventos" }, d: { en: "Parties, retreats and magostos on villagers' land. The owner keeps 80% of the venue fee; we earn 15% coordination (minimum €300) plus our kit.", es: "Fiestas, retiros y magostos en fincas de vecinos. El propietario se queda el 80 % del espacio; nosotros, un 15 % de coordinación (mínimo 300 €) más el kit." } },
-            { t: { en: "Relocation", es: "Reubicación" }, d: { en: "€500 onboarding + €99/month, sold to trial guests and to Rural Valley's 120 founders a year from March 2027.", es: "500 € de acogida + 99 €/mes, para quienes hacen la prueba y para los 120 fundadores anuales de Rural Valley desde marzo de 2027." } },
+            { t: { en: "Land for agricultural projects", es: "Tierra para proyectos agrarios" }, d: { en: "Villagers' abandoned parcels leased for 5–25 years to chestnut, organic, cattle and beekeeping projects. Owners keep 85% of the rent; we earn 15% plus a €1,500 set-up and €600/year management per project, and every lease hires locally.", es: "Fincas abandonadas de vecinos arrendadas de 5 a 25 años a proyectos de castaña, ecológico, ganadería y apicultura. Los propietarios se quedan el 85 % del canon; nosotros el 15 % más 1.500 € de puesta en marcha y 600 €/año de gestión por proyecto, y cada contrato contrata en el pueblo." } },
           ] as { t: T; d: T }[]).map((x) => <div key={x.t.en} className="rounded-2xl bg-moss-deep p-5 text-on-accent"><h3 className="text-2xl font-semibold">{t(x.t)}</h3><p className="mt-2 text-sm text-on-accent/85">{t(x.d)}</p></div>)}
         </div>
+      </Section>
+
+      <Section className="pt-0">
+        <SectionTitle eyebrow={t({ en: "4b · Land: the numbers", es: "4b · Tierra: las cifras" })} title={t({ en: "The village's most abandoned asset is also its most durable revenue.", es: "El activo más abandonado del pueblo es también su ingreso más duradero." })} lead={t({ en: `Villagers' parcels leased for ${LEASE.minYears}–25 years. The owner keeps ${LEASE.ownerShare * 100}% of the rent; we earn ${LEASE.commission * 100}% plus ${e(LEASE.setupFee)} to set a project up and ${e(LEASE.managementYear)} a year to manage it. Worked example over 10 years: ${t(cambela.name)}, ${cambela.ha} ha, organic vegetables.`, es: `Fincas de vecinos arrendadas de ${LEASE.minYears} a 25 años. El propietario se queda el ${LEASE.ownerShare * 100} % del canon; nosotros el ${LEASE.commission * 100} % más ${e(LEASE.setupFee)} por poner en marcha un proyecto y ${e(LEASE.managementYear)} al año por gestionarlo. Ejemplo a 10 años: ${t(cambela.name)}, ${cambela.ha} ha, huerta ecológica.` })} />
+        <dl className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { k: { en: "Rent per year, all owners", es: "Canon anual, todos los propietarios" }, v: e(lease.annualRent) },
+            { k: { en: "Owners receive over 10 years", es: "Los propietarios cobran en 10 años" }, v: e(lease.ownerYear * 10) },
+            { k: { en: "RuralRiver over 10 years", es: "RuralRiver en 10 años" }, v: e(lease.setup + 10 * (lease.managementYear + lease.commissionYear)) },
+            { k: { en: "Local jobs, permanent + seasonal", es: "Empleo local, fijo + temporada" }, v: `${lease.jobs} + ${lease.seasonal}` },
+          ].map((x) => (
+            <div key={x.k.en} className="rounded-2xl border border-line p-4">
+              <dt className="text-sm text-ink-soft">{t(x.k)}<Estimate lang={lang} /></dt>
+              <dd className="font-display text-2xl font-semibold">{x.v}</dd>
+            </div>
+          ))}
+        </dl>
+        <dl className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {LAND_STATS.map((f) => (
+            <div key={f.label.en} className="rounded-2xl bg-stone p-4">
+              <dt className="font-display text-2xl font-semibold text-moss">{tx(f.value, lang)}</dt>
+              <dd className="text-xs text-ink-soft">{t(f.label)}</dd>
+              <dd className="mt-1"><Src k={f.source} /></dd>
+            </div>
+          ))}
+        </dl>
       </Section>
 
       <Section className="pt-0">
@@ -169,6 +198,7 @@ export default async function BusinessPage({ params }: PageProps<"/[lang]/busine
               {([
                 { en: "Paying guests and events vs the plan", es: "Huéspedes y eventos frente al plan" },
                 { en: "Owners listed (target: 30 in 3 months)", es: "Propietarios dados de alta (objetivo: 30 en 3 meses)" },
+                { en: "Parcels under multi-year lease (target: 10 projects, 40 ha)", es: "Fincas con arrendamiento plurianual (objetivo: 10 proyectos, 40 ha)" },
                 { en: "Add-on revenue per guest", es: "Ingresos por extras por huésped" },
                 { en: "Share of questions the AI concierge answers without the host", es: "Porcentaje de preguntas que el conserje IA resuelve sin el anfitrión" },
                 { en: "Cash vs the loan schedule", es: "Caja frente al calendario del préstamo" },

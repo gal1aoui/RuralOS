@@ -11,16 +11,16 @@ const SUGGESTIONS: Record<Lang, string[]> = {
   en: [
     "What can we do in winter with two kids?",
     "How much is a birthday for 30 people with octopus and a gaiteiro?",
-    "How do I get there without a car?",
-    "I'm joining Rural Valley. How can you help me move?",
-    "What income do I need for the digital nomad visa?",
+    "I'm joining Rural Valley with my startup. How can you help?",
+    "I want to plant chestnuts on 5 hectares. How does a lease work?",
+    "I have a field nobody uses. What would I earn leasing it for 10 years?",
   ],
   es: [
     "¿Qué podemos hacer en invierno con dos niños?",
     "¿Cuánto cuesta un cumpleaños para 30 con pulpo y gaiteiro?",
-    "¿Cómo llego sin coche?",
-    "Tengo una casa vacía en San Xoán de Río, ¿cómo funciona?",
-    "¿Qué ingresos pide el visado de nómada digital?",
+    "Vengo a Rural Valley con mi startup, ¿cómo me ayudáis?",
+    "Tengo una finca que nadie trabaja, ¿cuánto cobraría arrendándola 10 años?",
+    "Quiero poner vacuno ecológico en 20 hectáreas, ¿qué tierra hay?",
   ],
 };
 
@@ -83,14 +83,14 @@ export default function Chat({ lang, initial }: { lang: Lang; initial?: string }
       <div className="flex items-center gap-3 border-b border-line px-4 py-3">
         <Avatar size={36} />
         <div>
-          <p className="font-display font-extrabold leading-tight tracking-[-0.02em]">{t({ en: "RuralOS concierge", es: "Conserje RuralOS" })}</p>
+          <p className="font-display font-extrabold leading-tight tracking-[-0.02em]">{t({ en: "RuralRiver concierge", es: "Conserje RuralRiver" })}</p>
           <p className="text-xs text-ink-soft">{t({ en: "AI assistant · a local host confirms every booking", es: "Asistente de IA · un anfitrión local confirma cada reserva" })}</p>
         </div>
       </div>
       <div className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-6" aria-live="polite">
         {messages.length === 0 && (
           <div>
-            <p className="text-ink-soft">{t({ en: "Hi! I'm the RuralOS concierge, an AI assistant for San Xoán de Río and Terra de Trives. Ask me about stays, events, prices, routes or moving here. A local person confirms every booking.", es: "¡Hola! Soy el conserje de RuralOS, un asistente de IA para San Xoán de Río y Terra de Trives. Pregúntame por estancias, eventos, precios, rutas o cómo mudarte. Una persona local confirma cada reserva." })}</p>
+            <p className="text-ink-soft">{t({ en: "Hi! I'm the RuralRiver concierge, an AI assistant for San Xoán de Río and Terra de Trives. Ask me about stays, events, prices, routes or leasing land for a project. A local person confirms every booking.", es: "¡Hola! Soy el conserje de RuralRiver, un asistente de IA para San Xoán de Río y Terra de Trives. Pregúntame por estancias, eventos, precios, rutas o cómo arrendar tierra para un proyecto. Una persona local confirma cada reserva." })}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {SUGGESTIONS[lang].map((s) => (
                 <button key={s} onClick={() => send(s)} className="rounded-full border border-line px-3 py-1.5 text-left text-sm hover:bg-stone">{s}</button>
@@ -117,7 +117,7 @@ export default function Chat({ lang, initial }: { lang: Lang; initial?: string }
   );
 }
 
-// The brand app icon (public/assets/ruralos-appicon.svg) is the concierge's face.
+// The brand app icon (public/assets/ruralriver-appicon.png) is the concierge's face.
 function Avatar({ size }: { size: number }) {
-  return <Image src="/assets/ruralos-appicon.svg" alt="" width={size} height={size} unoptimized className="shrink-0 rounded-lg" />;
+  return <Image src="/assets/ruralriver-appicon.png" alt="" width={size} height={size} unoptimized className="shrink-0 rounded-lg" />;
 }

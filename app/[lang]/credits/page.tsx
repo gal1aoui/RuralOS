@@ -7,7 +7,7 @@ import { alternates, langOf } from "@/lib/lang";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/credits">): Promise<Metadata> {
   const lang = await langOf(params);
-  return { title: tx({ en: "Image credits · RuralOS", es: "Créditos de imágenes · RuralOS" }, lang), alternates: alternates(lang, "/credits") };
+  return { title: tx({ en: "Image credits · RuralRiver", es: "Créditos de imágenes · RuralRiver" }, lang), alternates: alternates(lang, "/credits") };
 }
 
 export default async function CreditsPage({ params }: PageProps<"/[lang]/credits">) {

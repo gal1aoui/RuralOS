@@ -7,8 +7,8 @@ import { alternates, langOf } from "@/lib/lang";
 export async function generateMetadata({ params }: PageProps<"/[lang]/plan">): Promise<Metadata> {
   const lang = await langOf(params);
   return {
-    title: tx({ en: "Plan my visit · RuralOS", es: "Planifica tu visita · RuralOS" }, lang),
-    description: tx({ en: "A step-by-step questionnaire that recommends a package, event, relocation plan or hosting deal, with prices.", es: "Un cuestionario paso a paso que recomienda un paquete, evento, plan de mudanza o acuerdo de anfitrión, con precios." }, lang),
+    title: tx({ en: "Plan my visit · RuralRiver", es: "Planifica tu visita · RuralRiver" }, lang),
+    description: tx({ en: "A step-by-step questionnaire that recommends a package, event, multi-year land lease or hosting deal, with prices.", es: "Un cuestionario paso a paso que recomienda un paquete, evento, plan de mudanza o acuerdo de anfitrión, con precios." }, lang),
     alternates: alternates(lang, "/plan"),
   };
 }

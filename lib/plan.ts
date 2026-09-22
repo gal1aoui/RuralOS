@@ -1,8 +1,9 @@
-import { ACTIVITIES, ADDONS, LODGING, PACKAGES, RELOCATION, SEASON_NAMES, VISA, type Kind, type Season } from "./data";
+import { ACTIVITIES, ADDONS, LODGING, PACKAGES, SEASON_NAMES, VISA, type Kind, type Season } from "./data";
 import { CATERING, EVENT_TYPES, EXTRAS, quoteEvent, type CateringId, type ExtraId } from "./event";
 import { eur, tx, type Lang, type T } from "./i18n";
+import { LEASE, PARCELS, PROJECTS, quoteLease, type ProjectId } from "./land";
 
-export type Purpose = "discover" | "relocate" | "event" | "host" | "work";
+export type Purpose = "discover" | "startup" | "land" | "event" | "host" | "work";
 
 export type Answers = {
   purpose?: Purpose;
@@ -13,9 +14,13 @@ export type Answers = {
   interests?: Kind[];
   lodging?: "own" | "village" | "group" | "none";
   taxi?: boolean;
-  situation?: "remote" | "founder" | "family" | "retiree";
-  eu?: boolean;
-  kids?: boolean;
+  projectType?: ProjectId;
+  hectares?: number;
+  years?: number;
+  workers?: number;
+  teamHousing?: boolean;
+  ruralValley?: boolean;
+  needs?: ("desk" | "housing" | "land" | "event")[];
   eventType?: string;
   guests?: number;
   catering?: CateringId;
@@ -33,7 +38,8 @@ const loc = (cs: C[], lang: Lang): Choice[] => cs.map((c) => ({ value: c.value, 
 
 const PURPOSES: C[] = [
   { value: "discover", icon: "🌿", label: { en: "A holiday or getaway", es: "Vacaciones o escapada" }, hint: { en: "Nature, food, wine, heritage for a week or more", es: "Naturaleza, comida, vino y patrimonio, una semana o más" } },
-  { value: "relocate", icon: "🏡", label: { en: "Try living here", es: "Probar a vivir aquí" }, hint: { en: "Remote work, a startup, or moving with family", es: "Teletrabajo, una startup o mudarte con la familia" } },
+  { value: "startup", icon: "🚀", label: { en: "Land my startup here", es: "Traer mi startup aquí" }, hint: { en: "Rural Valley campus, a season with the team, a pilot on the land", es: "Campus Rural Valley, una temporada con el equipo, un piloto en la finca" } },
+  { value: "land", icon: "🌾", label: { en: "Start an agricultural project", es: "Montar un proyecto agrario" }, hint: { en: "Lease land for 5 to 25 years: chestnuts, organic, cattle, hives", es: "Arrendar tierra de 5 a 25 años: castaños, ecológico, vacuno, colmenas" } },
   { value: "event", icon: "🎉", label: { en: "Host a party or event", es: "Organizar una fiesta o evento" }, hint: { en: "Birthday, retreat, magosto, reunion", es: "Cumpleaños, retiro, magosto, reunión" } },
   { value: "host", icon: "🔑", label: { en: "I'm local: rent my house, land or skills", es: "Soy de aquí: alquilar mi casa, finca u oficio" }, hint: { en: "Earn from what's empty or unused", es: "Saca partido a lo que está vacío" } },
   { value: "work", icon: "💼", label: { en: "A work visit", es: "Una visita de trabajo" }, hint: { en: "Rural Valley, investors, partners", es: "Rural Valley, inversores, socios" } },
@@ -77,17 +83,25 @@ export function questionsFor(a: Answers, lang: Lang): Question[] {
           { value: "none", label: { en: "I've already arranged somewhere to stay", es: "Ya tengo alojamiento" } }], lang) },
         { id: "taxi", title: t({ en: "Shall we book a licensed taxi from Ourense station?", es: "¿Te reservamos un taxi con licencia desde la estación de Ourense?" }), help: t({ en: "The nearest high-speed stop, A Gudiña, has had no trains stopping since June 2025. You pay the fare to the driver.", es: "En A Gudiña no paran trenes AVE desde junio de 2025. La carrera se paga al taxista." }), kind: "boolean" },
       ];
-    case "relocate":
+    case "land":
       return [
         purpose,
-        { id: "situation", title: t({ en: "What describes you best?", es: "¿Qué te describe mejor?" }), kind: "single", choices: loc([
-          { value: "remote", icon: "💻", label: { en: "Remote worker", es: "Teletrabajador/a" } }, { value: "founder", icon: "🚀", label: { en: "Startup founder / entrepreneur", es: "Fundador/a o emprendedor/a" } },
-          { value: "family", icon: "👨‍👩‍👧", label: { en: "Moving with my family", es: "Me mudo con mi familia" } }, { value: "retiree", icon: "🌻", label: { en: "Retired or semi-retired", es: "Jubilado/a o casi" } }], lang) },
-        { id: "people", title: t({ en: "How many adults are moving?", es: "¿Cuántos adultos se mudan?" }), kind: "number", min: 1, max: 6, unit: t({ en: "adults", es: "adultos" }) },
-        { id: "kids", title: t({ en: "Are children coming too?", es: "¿Vienen también niños?" }), help: t({ en: "We'll help with school places.", es: "Te ayudamos con la plaza escolar." }), kind: "boolean" },
-        { id: "eu", title: t({ en: "Do you have an EU/EEA passport?", es: "¿Tienes pasaporte de la UE/EEE?" }), help: t({ en: "If not, we'll plan your visa and TIE (foreigner ID card) steps.", es: "Si no, planificamos el visado y la TIE." }), kind: "boolean" },
-        { id: "length", title: t({ en: "How long do you want to try living here first?", es: "¿Cuánto tiempo quieres probar primero?" }), kind: "single", choices: PACKAGES.filter((p) => p.id !== "week").map((p) => ({ value: p.id, label: `${t(p.period)}: ${t(p.name)}`, hint: `${eur(p.price, lang)} ${t({ en: "per person", es: "por persona" })}` })) },
-        season({ en: "When would you arrive?", es: "¿Cuándo llegarías?" }),
+        { id: "projectType", title: t({ en: "What would you grow or raise?", es: "¿Qué cultivarías o criarías?" }), kind: "single", choices: PROJECTS.map((p) => ({ value: p.id, icon: p.icon, label: t(p.label), hint: t({ en: `from ${p.minHa} ha`, es: `desde ${p.minHa} ha` }) })) },
+        { id: "hectares", title: t({ en: "How many hectares do you need?", es: "¿Cuántas hectáreas necesitas?" }), help: t({ en: `The example parcels add up to ${PARCELS.reduce((s, p) => s + p.ha, 0).toFixed(1)} ha across the municipality.`, es: `Las fincas de ejemplo suman ${PARCELS.reduce((s, p) => s + p.ha, 0).toFixed(1)} ha en todo el concello.` }), kind: "number", min: 1, max: 40, unit: "ha" },
+        { id: "years", title: t({ en: "For how many years?", es: "¿Por cuántos años?" }), help: t({ en: "Five years is the legal minimum for a rural lease in Spain (Ley 49/2003).", es: "Cinco años es el mínimo legal de un arrendamiento rústico en España (Ley 49/2003)." }), kind: "single", choices: LEASE.terms.map((y) => ({ value: String(y), label: `${y} ${t({ en: "years", es: "años" })}` })) },
+        { id: "workers", title: t({ en: "How many people would you employ locally?", es: "¿A cuánta gente contratarías aquí?" }), help: t({ en: "Seasonal or permanent. We recruit in the village and the valley first.", es: "De temporada o fijos. Buscamos primero en el pueblo y el valle." }), kind: "number", min: 0, max: 12, unit: t({ en: "people", es: "personas" }) },
+        { id: "teamHousing", title: t({ en: "Does your team need housing here?", es: "¿Tu equipo necesita alojamiento aquí?" }), help: t({ en: "We place teams in villagers' houses on seasonal lets.", es: "Alojamos a los equipos en casas de vecinos con alquiler de temporada." }), kind: "boolean" },
+      ];
+    case "startup":
+      return [
+        purpose,
+        { id: "people", title: t({ en: "How many people in the team?", es: "¿Cuántas personas sois en el equipo?" }), kind: "number", min: 1, max: 8, unit: t({ en: "people", es: "personas" }) },
+        { id: "ruralValley", title: t({ en: "Are you joining the Rural Valley campus?", es: "¿Entráis en el campus Rural Valley?" }), help: t({ en: "The village's startup campus at Os Biocos: €350/month with housing, meals and gigabit fibre. First cohort March 2027.", es: "El campus de startups del pueblo en Os Biocos: 350 €/mes con alojamiento, comidas y fibra de 1 Gb. Primera promoción en marzo de 2027." }), kind: "boolean" },
+        { id: "length", title: t({ en: "How long are you coming for?", es: "¿Cuánto tiempo venís?" }), kind: "single", choices: PACKAGES.filter((p) => p.id !== "week").map((p) => ({ value: p.id, label: `${t(p.period)}: ${t(p.name)}`, hint: `${eur(p.price, lang)} ${t({ en: "per person", es: "por persona" })}` })) },
+        { id: "needs", title: t({ en: "What does the startup need here?", es: "¿Qué necesita la startup aquí?" }), help: t({ en: "Choose as many as you like.", es: "Elige todas las que quieras." }), kind: "multi", choices: loc([
+          { value: "desk", icon: "💻", label: { en: "A desk with fibre", es: "Una mesa con fibra" } }, { value: "housing", icon: "🏠", label: { en: "Housing for the team", es: "Alojamiento para el equipo" } },
+          { value: "land", icon: "🌾", label: { en: "Land for an agri-food pilot", es: "Tierra para un piloto agroalimentario" } }, { value: "event", icon: "🎉", label: { en: "A team retreat or launch event", es: "Un retiro de equipo o evento de lanzamiento" } }], lang) },
+        season({ en: "When would you arrive?", es: "¿Cuándo llegaríais?" }),
       ];
     case "event":
       return [
@@ -176,32 +190,71 @@ export function recommend(a: Answers, lang: Lang): Recommendation {
         activities: matchActivities(a.season, i),
       };
     }
-    case "relocate": {
-      const pkg = PACKAGES.find((p) => p.id === (a.length ?? "trial"))!;
-      const months = pkg.id === "month" ? 1 : 3;
-      const lines: Line[] = [
-        { label: `${t(pkg.name)} (${t(pkg.period)}) × ${people} ${t({ en: "adult(s)", es: "adulto(s)" })}`, amount: pkg.price * people },
-        a.situation === "founder"
-          ? { label: t({ en: `Rural Valley cabin incl. meals, paid to the campus · ${months} month(s) × ${people}`, es: `Cabaña de Rural Valley con comidas, pagada al campus · ${months} mes(es) × ${people}` }), amount: RURAL_VALLEY_MONTHLY * months * people }
-          : { label: t({ en: `Seasonal let for the trial · ${months} month(s)`, es: `Alquiler de temporada para la prueba · ${months} mes(es)` }), amount: LODGING.monthlyLet * months, estimate: true },
-        { label: t({ en: "Relocation onboarding (per household)", es: "Acogida y trámites (por hogar)" }), amount: RELOCATION.onboarding },
-        { label: t({ en: `Then, if you stay: subscription ${e(RELOCATION.monthly)}/month`, es: `Después, si te quedas: suscripción ${e(RELOCATION.monthly)}/mes` }), amount: RELOCATION.monthly, optional: true },
-      ];
+    case "land": {
+      const project = a.projectType ?? "organic";
+      const pr = PROJECTS.find((p) => p.id === project)!;
+      const wanted = a.hectares ?? pr.minHa;
+      const years = Number(a.years ?? LEASE.terms[1]);
+      // Assemble parcels that suit the project, biggest first, until the hectares are covered.
+      const picked: string[] = [];
+      let got = 0;
+      for (const p of [...PARCELS].sort((x, y) => (y.suggested.includes(project) ? 1 : 0) - (x.suggested.includes(project) ? 1 : 0) || y.ha - x.ha)) {
+        if (got >= wanted || picked.length >= 4) break;
+        picked.push(p.id);
+        got += p.ha;
+      }
+      const q = quoteLease({ parcelIds: picked, years, project, lang });
+      const lines: Line[] = q.rows.map((r) => ({ label: `${r.label}${r.perYear ? ` · ${t({ en: "per year", es: "al año" })}` : ""}`, amount: r.amount, estimate: r.estimate }));
+      const workers = a.workers ?? 0;
+      if (a.teamHousing) lines.push({ label: t({ en: `Optional: team housing in villagers' houses, ≈${e(LODGING.monthlyLet)}/month per house (booked with the owner)`, es: `Opcional: alojamiento del equipo en casas de vecinos, ≈${e(LODGING.monthlyLet)}/mes por casa (se reserva con el propietario)` }), amount: LODGING.monthlyLet, estimate: true, optional: true });
       const notes = [
-        a.eu === false
-          ? t({ en: `Without an EU passport: plan your visa first. Spain's telework (digital nomad) visa requires 200% of the minimum wage, about ${e(VISA.monthlyRequired)}/month in 2026, plus ${e(VISA.firstFamily)}/month for the first family member and ${e(VISA.eachExtra)} for each additional one. We prepare the NIE/TIE steps and documents.`, es: `Sin pasaporte de la UE: primero el visado. El visado de teletrabajo (nómada digital) exige el 200 % del SMI, unos ${e(VISA.monthlyRequired)}/mes en 2026, más ${e(VISA.firstFamily)}/mes por el primer familiar y ${e(VISA.eachExtra)} por cada uno adicional. Preparamos los pasos de NIE/TIE y los documentos.` })
-          : t({ en: "With an EU passport: you need EU-citizen registration, the NIE and the padrón. We book the appointments.", es: "Con pasaporte de la UE: necesitas el registro de ciudadano de la UE, el NIE y el padrón. Pedimos las citas." }),
-        a.kids ? t({ en: "Families: we arrange school places and the health-centre registration during onboarding.", es: "Familias: gestionamos plaza escolar y alta en el centro de salud durante la acogida." }) : "",
-        a.situation === "founder" ? t({ en: "Founders: apply to the Rural Valley campus at Os Biocos (€350/month including housing and meals, first cohort March 2027). We add onboarding and experiences on top. We don't compete with it.", es: "Fundadores: solicitad plaza en el campus Rural Valley de Os Biocos (350 €/mes con alojamiento y comidas, primera promoción en marzo de 2027). Nosotros añadimos acogida y experiencias. No competimos con él." }) : "",
-        a.season === "Winter" ? t({ en: "You'd be arriving in winter at 875 m. We check the heating before you arrive.", es: "Llegarías en invierno a 875 m. Revisamos la calefacción antes de tu llegada." }) : "",
+        t({ en: `${picked.length} example parcel(s), ${q.ha.toFixed(1)} ha, matched to ${t(pr.label).toLowerCase()}. Real availability is confirmed with each owner; parcels with an unknown owner go through the Banco de Terras.`, es: `${picked.length} finca(s) de ejemplo, ${q.ha.toFixed(1)} ha, ajustadas a ${t(pr.label).toLowerCase()}. La disponibilidad real se confirma con cada propietario; las de propietario desconocido pasan por el Banco de Terras.` }),
+        q.ha < wanted ? t({ en: `You asked for ${wanted} ha; the listed examples reach ${q.ha.toFixed(1)}. The Cambela polygon (96.4 ha) shows the municipality has more; we go door to door.`, es: `Pediste ${wanted} ha; los ejemplos publicados llegan a ${q.ha.toFixed(1)}. El polígono de Cambela (96,4 ha) demuestra que el concello tiene más; vamos puerta por puerta.` }) : "",
+        t({ en: `Rural leases run five years minimum and renew by five-year periods (Ley 49/2003). Over ${years} years this plan totals about ${e(q.termTotal)}, of which the owners receive ${e(q.ownerYear * years)}.`, es: `Los arrendamientos rústicos duran cinco años como mínimo y se prorrogan por periodos de cinco (Ley 49/2003). En ${years} años este plan suma unos ${e(q.termTotal)}, de los que los propietarios reciben ${e(q.ownerYear * years)}.` }),
+        t({ en: `Local jobs, estimate: about ${q.jobs} permanent and ${q.seasonal} seasonal for this land${workers ? `; you said ${workers}` : ""}. Every lease carries a local-hiring clause and we recruit in the village first.`, es: `Empleo local, estimación: unos ${q.jobs} fijos y ${q.seasonal} de temporada para esta tierra${workers ? `; tú indicaste ${workers}` : ""}. Cada contrato lleva cláusula de contratación local y buscamos primero en el pueblo.` }),
+        t({ en: "Aged 18–40? The Xunta's young-farmer aid pays €30,000 to €70,000 to start (call MR404A, 2026). Organic projects can certify with CRAEGA.", es: "¿Tienes entre 18 y 40 años? La ayuda de la Xunta a jóvenes agricultores da de 30.000 a 70.000 € para empezar (convocatoria MR404A, 2026). Los proyectos ecológicos pueden certificarse con el CRAEGA." }),
       ].filter(Boolean);
-      const total = lines.filter((l) => !l.optional).reduce((s, l) => s + l.amount, 0);
       return {
-        headline: a.situation === "founder" ? t({ en: "Rural Valley + RuralOS onboarding", es: "Rural Valley + acogida RuralOS" }) : `${t(pkg.name)}, ${t(pkg.period)}`,
-        summary: t({ en: "Test living here with an easy way out, then keep a local fixer on subscription if you stay.", es: "Prueba a vivir aquí con una salida fácil y, si te quedas, mantén a alguien local de confianza por suscripción." }),
-        lines, total, totalLabel: t({ en: "Trial total (excluding the optional subscription)", es: "Total de la prueba (sin la suscripción opcional)" }),
-        next: [{ href: "/relocate", label: t({ en: "How relocation works", es: "Cómo funciona la reubicación" }) }, { href: "/concierge", label: t({ en: "Ask the concierge", es: "Pregunta al conserje" }) }],
-        notes, activities: matchActivities(a.season, []),
+        headline: t({ en: `${t(pr.label)} on ${q.ha.toFixed(1)} ha, ${years} years`, es: `${t(pr.label)} en ${q.ha.toFixed(1)} ha, ${years} años` }),
+        summary: t({ en: `${e(q.annualRent)} a year in rent, all owners included, plus set-up and management. The land stays in the village and the work does too.`, es: `${e(q.annualRent)} al año de canon, con todos los propietarios, más puesta en marcha y gestión. La tierra se queda en el pueblo y el trabajo también.` }),
+        lines, total: q.firstYear, totalLabel: t({ en: "Year 1 total (rent + set-up + management)", es: "Total del año 1 (canon + puesta en marcha + gestión)" }),
+        next: [{ href: "/land", label: t({ en: "Pick parcels on the map", es: "Elegir fincas en el mapa" }) }, { href: "/concierge", label: t({ en: "Ask the concierge", es: "Pregunta al conserje" }) }],
+        notes, activities: matchActivities(undefined, ["Nature", "Food & wine"]),
+      };
+    }
+    case "startup": {
+      const pkg = PACKAGES.find((p) => p.id === (a.length ?? "month"))!;
+      const months = pkg.id === "trial" ? 3 : 1;
+      const needs = a.needs ?? [];
+      const houses = Math.ceil(people / LODGING.ownHouseSleeps);
+      const lines: Line[] = [{ label: `${t(pkg.name)} (${t(pkg.period)}) × ${people}`, amount: pkg.price * people }];
+      if (a.ruralValley) lines.push({ label: t({ en: `Rural Valley cabin incl. meals, paid to the campus · ${months} month(s) × ${people}`, es: `Cabaña de Rural Valley con comidas, pagada al campus · ${months} mes(es) × ${people}` }), amount: RURAL_VALLEY_MONTHLY * months * people });
+      else if (needs.includes("housing")) lines.push({ label: t({ en: `Seasonal let in villagers' houses · ${houses} house(s) × ${months} month(s), booked with the owner`, es: `Alquiler de temporada en casas de vecinos · ${houses} casa(s) × ${months} mes(es), se reserva con el propietario` }), amount: LODGING.monthlyLet * months * houses, estimate: true });
+      if (needs.includes("land")) {
+        const q = quoteLease({ parcelIds: ["ours"], years: LEASE.minYears, project: "organic", lang });
+        lines.push({ label: t({ en: `Optional: agri-food pilot on our 2 ha demonstration plot, year 1 (rent + set-up + management, ${LEASE.minYears}-year lease)`, es: `Opcional: piloto agroalimentario en nuestra parcela demostrativa de 2 ha, año 1 (canon + puesta en marcha + gestión, contrato de ${LEASE.minYears} años)` }), amount: q.firstYear, estimate: true, optional: true });
+      }
+      if (needs.includes("event")) {
+        const guests = Math.max(8, people * 2);
+        const q = quoteEvent({ guests, catering: "feast", extras: ["kit"], lang });
+        lines.push({ label: t({ en: `Optional: team retreat or launch event for ${guests} guests on a villager's land`, es: `Opcional: retiro de equipo o evento de lanzamiento para ${guests} invitados en una finca` }), amount: q.total, estimate: true, optional: true });
+      }
+      const total = lines.filter((l) => !l.optional).reduce((s, l) => s + l.amount, 0);
+      const notes = [
+        a.ruralValley
+          ? t({ en: "Apply to the Rural Valley campus at Os Biocos directly (€350/month including housing and meals, first cohort March 2027). We add the village around it: experiences, events and land. We don't compete with it.", es: "Solicitad plaza en el campus Rural Valley de Os Biocos directamente (350 €/mes con alojamiento y comidas, primera promoción en marzo de 2027). Nosotros añadimos el pueblo alrededor: experiencias, eventos y tierra. No competimos con él." })
+          : t({ en: "Not on the campus? We find you a house with fibre and a desk in the village or in A Pobra de Trives, booked with the owner.", es: "¿Fuera del campus? Os buscamos una casa con fibra y una mesa en el pueblo o en A Pobra de Trives, reservada con el propietario." }),
+        t({ en: "San Xoán de Río and A Pobra de Trives form Spain's first certified Startup Village, and the village won a bronze EU Capitals of Inclusion & Diversity award in April 2026.", es: "San Xoán de Río y A Pobra de Trives forman el primer Startup Village certificado de España, y el pueblo ganó el bronce de las Capitales Europeas de la Inclusión y la Diversidad en abril de 2026." }),
+        needs.includes("land") ? t({ en: "Agri-food idea? Our 2 ha demonstration plot is available on a 5-year lease from year one, and the map at /land has more parcels.", es: "¿Idea agroalimentaria? Nuestra parcela demostrativa de 2 ha está disponible con contrato de 5 años desde el primer año, y en el mapa de /land hay más fincas." }) : "",
+        t({ en: `Team members without an EU passport: Spain's telework visa requires about ${e(VISA.monthlyRequired)}/month of income in 2026; founders can also look at the entrepreneur visa. Confirm with the consulate; we introduce you to a gestor.`, es: `Miembros del equipo sin pasaporte de la UE: el visado de teletrabajo exige unos ${e(VISA.monthlyRequired)}/mes de ingresos en 2026; los fundadores pueden mirar también el visado de emprendedor. Confirmadlo con el consulado; os presentamos a un gestor.` }),
+        a.season === "Winter" ? t({ en: "You'd be arriving in winter at 875 m. We check the heating before you arrive.", es: "Llegaríais en invierno a 875 m. Revisamos la calefacción antes de vuestra llegada." }) : "",
+      ].filter(Boolean);
+      return {
+        headline: a.ruralValley ? t({ en: "Rural Valley + RuralRiver", es: "Rural Valley + RuralRiver" }) : `${t(pkg.name)}, ${t(pkg.period)}`,
+        summary: t({ en: "Land the startup in the village: a place to stay and work, the village around you, and land if your idea grows things.", es: "Aterriza la startup en el pueblo: un sitio donde vivir y trabajar, el pueblo alrededor y tierra si tu idea cultiva algo." }),
+        lines, total, totalLabel: t({ en: `Total for ${people} (excluding optional extras)`, es: `Total para ${people} (sin extras opcionales)` }),
+        next: [{ href: "/packages", label: t({ en: "Compare packages", es: "Comparar paquetes" }) }, { href: "/land", label: t({ en: "Land for a pilot", es: "Tierra para un piloto" }) }, { href: "/events", label: t({ en: "Team retreat quote", es: "Presupuesto de retiro" }) }],
+        notes, activities: matchActivities(a.season, ["Food & wine", "Nature"]),
       };
     }
     case "event": {
@@ -232,7 +285,7 @@ export function recommend(a: Answers, lang: Lang): Recommendation {
       if (offer.includes("skills")) lines.push({ label: t({ en: "Skills: ≈20 bookings × €80", es: "Oficio: ≈20 reservas × 80 €" }), amount: 20 * 80, estimate: true });
       const total = lines.reduce((s, l) => s + l.amount, 0);
       return {
-        headline: t({ en: "Become a RuralOS host", es: "Hazte anfitrión de RuralOS" }),
+        headline: t({ en: "Become a RuralRiver host", es: "Hazte anfitrión de RuralRiver" }),
         summary: t({ en: "You keep 85% on stays and 80% on venue fees. We bring the guests, the insurance and the paperwork.", es: "Te quedas el 85 % de las estancias y el 80 % de los espacios. Ponemos los huéspedes, el seguro y el papeleo." }),
         lines, total, totalLabel: t({ en: "Estimated first-year earnings for you", es: "Ingresos estimados para ti el primer año" }),
         next: [{ href: "/hosts", label: t({ en: "Hosting terms", es: "Condiciones" }) }],
