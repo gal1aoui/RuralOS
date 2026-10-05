@@ -19,6 +19,22 @@ npm run dev          # http://localhost:3000
 
 To connect the AI concierge to Claude, set `ANTHROPIC_API_KEY` (or sign in with `ant auth login`). Without credentials, it falls back to keyword search over the same knowledge base, so the demo works offline.
 
+## Waiting list
+
+The home page has a waiting-list section (`#waitlist`) next to the 2-minute product tour from YouTube (embedded from `youtube-nocookie.com`). Sign-ups go to `POST /api/waitlist` and are kept in **one JSON file, no database**:
+
+- **On Vercel:** a private file in Vercel Blob, `waitlist/waitlist.json`. Deployed functions can't keep files on their own disk, so Blob is the file store. Writes are version-checked (ETag), so simultaneous sign-ups are never lost.
+- **Anywhere else** (local dev, a regular Node server): `.data/waitlist.json`, which is gitignored because it holds personal data.
+
+Each entry has name, email, interests, an optional message, language, consent and date; an email already on the list is not added twice. A hidden honeypot field drops bots.
+
+Production setup on Vercel:
+
+1. **Storage → Create → Blob** (private), then connect the store to this project. This sets `BLOB_READ_WRITE_TOKEN` or `BLOB_STORE_ID`; either works. Without it the form answers "unavailable" instead of losing sign-ups.
+2. Optional, to download the list: set `WAITLIST_ADMIN_KEY` to a long random string. Then open `https://<site>/api/waitlist?key=<key>&format=csv` (or without `format` for JSON). Without the key the endpoint answers 404.
+   To remove someone (e.g. a GDPR deletion request), send a DELETE with the same key, in PowerShell: `Invoke-RestMethod -Method Delete "https://<site>/api/waitlist?key=<key>&email=<their email>"`.
+3. Redeploy.
+
 ## Languages and themes
 
 - **English and Spanish.** Every page lives under `/en/...` or `/es/...`. `proxy.ts` sends bare URLs to the visitor's saved choice (the `lang` cookie set by the EN/ES switch) or their browser's `Accept-Language`, and redirects the old `/relocate` route to `/land`. Content is written once in `lib/data.ts` and `lib/land.ts` as `{ en, es }` pairs; `tx(value, lang)` picks the right string.
@@ -53,6 +69,7 @@ To connect the AI concierge to Claude, set `ANTHROPIC_API_KEY` (or sign in with 
 - `app/api/concierge`: Claude streaming route with an offline fallback.
 - `app/api/leads`: stores questionnaire and lease requests in `.data/leads.json` (MVP only; use a database before deploying to a serverless host).
 - `app/api/model`: JSON of the whole model for the pitch-deck generator.
+- `app/api/waitlist`, `lib/waitlist.ts`, `lib/waitlist-store.ts`, `components/Waitlist.tsx`: the waiting list (see above).
 
 ## Images
 

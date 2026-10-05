@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button, Photo, PageHero, Section, SectionTitle, Src } from "@/components/ui";
+import Waitlist from "@/components/Waitlist";
 import { ACTIVITIES, FACTS, HOST_OFFERS, PACKAGES } from "@/lib/data";
 import { eur, href, tx, type T } from "@/lib/i18n";
 import { alternates, langOf } from "@/lib/lang";
 import type { ImgSlug } from "@/lib/images";
 import { computeModel } from "@/lib/model";
+
+/** The product tour on YouTube: https://youtu.be/6Dc6GYYK5cQ */
+const TOUR_VIDEO = "6Dc6GYYK5cQ";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
   const lang = await langOf(params);
@@ -40,8 +44,37 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <div className="mt-6 flex flex-wrap gap-3">
           <Button href={href("/plan", lang)}>{t({ en: "Plan my visit →", es: "Planifica tu visita →" })}</Button>
           <Button href={href("/concierge", lang)} variant="light">{t({ en: "Ask the AI concierge", es: "Pregunta al conserje IA" })}</Button>
+          <Button href="#waitlist" variant="ghost">{t({ en: "Join the waiting list ↓", es: "Únete a la lista de espera ↓" })}</Button>
         </div>
       </PageHero>
+
+      <Section id="waitlist" className="scroll-mt-20">
+        <SectionTitle
+          eyebrow={t({ en: "Coming soon", es: "Muy pronto" })}
+          title={t({ en: "See RuralRiver in two minutes, then join the waiting list.", es: "Conoce RuralRiver en dos minutos y únete a la lista de espera." })}
+          lead={t({ en: "We're getting ready to open in San Xoán de Río. Leave your details and you'll be the first to hear when stays, events and land leases open, and how you can take part.", es: "Nos preparamos para abrir en San Xoán de Río. Déjanos tus datos y serás de los primeros en saber cuándo abren las estancias, los eventos y los arrendamientos de tierra, y cómo puedes participar." })}
+        />
+        <div className="mt-10 grid items-start gap-8 lg:grid-cols-[1.35fr_1fr]">
+          <div>
+            <div className="relative aspect-video overflow-hidden rounded-2xl border border-line bg-scrim shadow-lg">
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${TOUR_VIDEO}?rel=0&hl=${lang}`}
+                title={t({ en: "RuralRiver product tour (2 minutes)", es: "Recorrido por RuralRiver (2 minutos)" })}
+                loading="lazy"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                className="absolute inset-0 h-full w-full"
+              />
+            </div>
+            <p className="mt-2 text-sm text-ink-soft">
+              {t({ en: "A 2-minute tour of the platform.", es: "Un recorrido de 2 minutos por la plataforma, en inglés con subtítulos." })}{" "}
+              <a href={`https://youtu.be/${TOUR_VIDEO}`} target="_blank" rel="noreferrer" className="underline hover:text-ink">{t({ en: "Watch on YouTube", es: "Verlo en YouTube" })}</a>
+            </p>
+          </div>
+          <Waitlist lang={lang} />
+        </div>
+      </Section>
 
       <Section>
         <SectionTitle eyebrow={t({ en: "Three ways in", es: "Tres formas de venir" })} title={t({ en: "Stay, celebrate or farm.", es: "Quédate, celebra o cultiva." })} lead={t({ en: "Every resource the village has, put to work: its houses, its land, its cooks and musicians, its owners. One local host, a network of villagers and suppliers, and an AI concierge that knows every route, festival, parcel and price in the valley.", es: "Todos los recursos del pueblo, puestos a trabajar: sus casas, su tierra, sus cocineras y músicos, sus propietarios. Un anfitrión local, una red de vecinos y proveedores, y un conserje IA que conoce cada ruta, fiesta, finca y precio del valle." })} />
